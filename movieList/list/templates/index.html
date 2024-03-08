@@ -7,5 +7,19 @@
 </head>
 <body>
     <h1>CLASSIFICADOR DE FILMES </h1>
+{%for movie in movie %}
+    <h2>Título:{{movie.name}}Duração:{{movie.duration}} <a href="/deleteMovie/{{movie.id}}/"><button>Deletar</button></a> </h2>
+    {%endfor%}
+
+    <h2> ADICIONAR FILME </h2>
+    <form action="/addMovie/" method="POST">
+        {% csrf_token %}
+        <label for="fname">Nome:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="fduration">Duração:</label><br>
+        <input type="text" id="fduration" name="fduration"><br> 
+        <input type="submit" value="ADICIONAR">
+      </form> 
+    
 </body>
 </html>
