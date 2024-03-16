@@ -8,7 +8,10 @@
 <body>
     <h1>CLASSIFICADOR DE FILMES </h1>
 {%for movie in movie %}
-    <h2>Título:{{movie.name}}Duração:{{movie.duration}} <a href="/deleteMovie/{{movie.id}}/"><button>Deletar</button></a> </h2>
+    <h2>Título:{{movie.name}}Duração:{{movie.duration}} 
+        <a href="/deleteMovie/{{movie.id}}/"><button>Deletar</button></a>
+        <a href="/update/{{movie.id}}/"><button>Atualizar</button></a> 
+    </h2>
     {%endfor%}
 
     <h2> ADICIONAR FILME </h2>

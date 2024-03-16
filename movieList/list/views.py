@@ -24,3 +24,19 @@ def deleteMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     movie.delete()
     return redirect('http://127.0.0.1:8000/')
+
+def update(request, pk):
+    movie = Movie.objects.get(id=pk)
+        
+    return render(request, 'updateMovie.html',{"Movie":movie})
+
+def updateMovie(request, pk):
+    movie = Movie.objects.get(id=pk)
+    
+    name = request.POST['fname']
+    duration = request.POST['fduration']
+    movie.name = name
+    movie.duration = duration
+    
+    movie.save()
+    return redirect('http://127.0.0.1:8000/')
