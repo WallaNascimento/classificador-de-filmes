@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISUALIZAÇÃO</title>
+</head>
+<body>
+    <h1>CLASSIFICADOR DE FILMES </h1>
+
+    <h2> FILME </h2>
+ 
+    <!-- <form action="/updateMovie/{{Movie.id}}/" method="POST">
+        {% csrf_token %}
+        <label for="fname">Nome:</label><br>
+        <input type="text" id="fname" name="fname" value="{{Movie.name}}"><br>
+        <label for="fduration">Duração:</label><br>
+        <input type="text" id="fduration" name="fduration" value="{{Movie.duration}}"><br> 
+        <input type="submit" value="ATUALIZAR">
+      </form> 
+     -->
+      {{ movie }}
+      {% for element in list_genre_movie %} <BR>
+          {{element.genre}}
+      {% endfor %}
+  
+      <form id="form" action="/addGenreMovie/{{movie.id}}/" method="POST">
+          {% csrf_token %}
+          <select name="fgenre" id="genero">
+              {%for genre in genres %}
+                  <option value="{{genre.id}}">{{genre}}</option>
+              {%endfor%}
+            </select>
+          <input class="btn btn-primary" type="submit" value="Adicionar">
+      </form> 
+  
+  
+
+</body>
+</html>
