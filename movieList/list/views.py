@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from django.http import HttpResponse
-from list.models import Movie, Genre, GenreMovie
+from list.models import Movie, Genre, GenreMovie, Platform, MovieStreaming
 
 # Create your views here.
 
@@ -48,25 +48,21 @@ def updateMovie(request, pk):
     movie.save()
     return redirect('http://127.0.0.1:8000/')
 
-def addGenre(request):
-    name = request.POST['']
-    newGenre = Genre (
-        name = name,
-    )
-    newGenre.save()
-        
-    return redirect('http://127.0.0.1:8000/')
 
 def getMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     list_genre_movie = GenreMovie.objects.filter(movie__id=pk)
     genres = Genre.objects.all()
-    #generos = Genero.objects.filter(id=list_genero_filme)
-    #print(list_genero_filme)
+    list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
+    platforms = Platform.objects.all()
+    
     context = {
         'genres': genres,
         'movie': movie,
-        'list_genre_movie':list_genre_movie}
+        'list_genre_movie':list_genre_movie,
+        'platforms':platforms,
+        'list_streaming_movie':list_streaming_movie,
+        }
     return render(request, 'showGenreMovie.html', context)
 
 
@@ -78,9 +74,21 @@ def addGenreMovie(request, pk):
     newGenreMovie = GenreMovie (
         movie = movie,
         genre = genre,
-
     )
     newGenreMovie.save()
     
     return redirect('http://127.0.0.1:8000/')
     
+def addMovieStreaming(request, pk):
+    movie = Movie.objects.get(id=pk)
+    platformId = request.POST['platform']
+    platform = Platform.objects.get(id=platformId)
+    
+    newMovieStreaming = MovieStreaming (
+        movie = movie,
+        platform = platform,
+    )
+    newMovieStreaming.save()
+    
+    return redirect('http://127.0.0.1:8000/')
+  

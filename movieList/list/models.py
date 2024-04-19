@@ -22,3 +22,17 @@ class GenreMovie(models.Model):
 
     def __str__(self):
         return self.movie.name + "  -  " + self.genre.name
+    
+class Platform(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
+class MovieStreaming(models.Model):
+    movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
+    platform=models.ForeignKey(Platform, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.movie.name + "  -  " + self.platform.name
+

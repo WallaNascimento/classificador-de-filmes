@@ -6,20 +6,10 @@
     <title>VISUALIZAÇÃO</title>
 </head>
 <body>
-    <h1>CLASSIFICADOR DE FILMES </h1>
-
-    <h2> FILME </h2>
+    <h1>FILME </h1>
  
-    <!-- <form action="/updateMovie/{{Movie.id}}/" method="POST">
-        {% csrf_token %}
-        <label for="fname">Nome:</label><br>
-        <input type="text" id="fname" name="fname" value="{{Movie.name}}"><br>
-        <label for="fduration">Duração:</label><br>
-        <input type="text" id="fduration" name="fduration" value="{{Movie.duration}}"><br> 
-        <input type="submit" value="ATUALIZAR">
-      </form> 
-     -->
       {{ movie }}
+      <div>
       {% for element in list_genre_movie %} <BR>
           {{element.genre}}
       {% endfor %}
@@ -33,8 +23,25 @@
             </select>
           <input class="btn btn-primary" type="submit" value="Adicionar">
       </form> 
-  
-  
+      </div>
 
+      <br>
+      <div>
+        <h2> Disponível em: </h2>
+        {% for element in list_streaming_movie %} <BR>
+            {{element.platform}}
+        {% endfor %}
+    
+        <form id="form" action="/addMovieStreaming/{{movie.id}}/" method="POST">
+            {% csrf_token %}
+            <select name="platform" id="platform">
+                {%for platform in platforms %}
+                    <option value="{{platform.id}}">{{platform}}</option>
+                {%endfor%}
+              </select>
+            <input class="btn btn-primary" type="submit" value="Adicionar">
+        </form> 
+        </div>
+  
 </body>
 </html>
