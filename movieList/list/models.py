@@ -1,5 +1,7 @@
 from django.db import models
 
+from user.models import User
+
 # Create your models here.
 
 class Movie(models.Model):
@@ -36,3 +38,17 @@ class MovieStreaming(models.Model):
     def __str__(self):
         return self.movie.name + "  -  " + self.platform.name
 
+
+class MovieWatched(models.Model):
+     movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
+     user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+     def __str__(self):
+         return self.user.name + "  -  " + self.movie.name
+
+class Playlist(models.Model):
+    movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.name + "  -  " + self.movie.name

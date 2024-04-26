@@ -92,3 +92,8 @@ def addMovieStreaming(request, pk):
     
     return redirect('http://127.0.0.1:8000/')
   
+def search(request):
+    name = request.POST['search']
+    search = Movie.objects.filter(name=name)
+    
+    return render(request, 'index.html', {'search':search})

@@ -17,10 +17,10 @@
       <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/index">Home <span class="sr-only">(página atual)</span></a>
+            <a class="nav-link" href="#">Início <span class="sr-only">(página atual)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Sobre</a>
           </li>
           {% if user.is_authenticated %}
 
@@ -29,7 +29,7 @@
               {{ user.username }}
                           </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Ação</a><br>
+              <a class="dropdown-item" href="#">Perfil</a><br>
               <a class="dropdown-item" href="/logout">Sair</a>
               {% else %}
 
@@ -43,16 +43,40 @@
             <a class="nav-link disabled" href="#">Desativado</a>
           </li> -->
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+        <form class="form-inline my-2 my-lg-0" action="/search/" method="post">
+          {% csrf_token %}
+                
+          <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
         </form>
       </div>
     </nav>
   </section>
-
   <h1>CLASSIFICADOR DE FILMES </h1>
-{%for movie in movie %}
+
+  <section>
+    {%for search in search%}
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Imagem de capa do card">
+    <div class="card-body">
+      <h2 class="card-title">{{search.name}} </h2>
+      <p class="card-text">Duração - {{search.duration}} </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{search.id}}"> Visualizar  </a> </li>
+      <li class="list-group-item"><a href="/update/{{search.id}}/"><button>Atualizar</button></a> </li>
+      <li class="list-group-item"><a href="/deleteMovie/{{search.id}}/"><button>Deletar</button></a>
+            </li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Gostei</a><br>
+      <a href="#" class="card-link">Não gostei </a>
+    </div>
+  </div>
+  {%endfor%}
+ </section>
+
+  {%for movie in movie %}
 <div class="card" style="width: 18rem;">
   <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Imagem de capa do card">
   <div class="card-body">
