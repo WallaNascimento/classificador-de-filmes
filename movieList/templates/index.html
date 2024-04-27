@@ -9,26 +9,28 @@
 <body>
   <section>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+      
       <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
-        <ul class="navbar-nav mr-auto">
+        <div class="col-sm">
+        <ul class=" navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Início <span class="sr-only">(página atual)</span></a>
+            <a class="nav-link" href="">Início <span class="sr-only">(página inicial)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Sobre</a>
           </li>
           {% if user.is_authenticated %}
-
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ user.username }}
                           </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Perfil</a><br>
               <a class="dropdown-item" href="/logout">Sair</a>
               {% else %}
@@ -43,6 +45,8 @@
             <a class="nav-link disabled" href="#">Desativado</a>
           </li> -->
         </ul>
+        </div>
+        <div class="col-sm">
         <form class="form-inline my-2 my-lg-0" action="/search/" method="post">
           {% csrf_token %}
                 
@@ -50,9 +54,13 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
         </form>
       </div>
+      </div>
+
+      </div>
     </nav>
   </section>
-  <h1>CLASSIFICADOR DE FILMES </h1>
+  
+  <h1 class="text-center mt-5">CLASSIFICADOR DE FILMES </h1>
 
   <section>
     {%for search in search%}
@@ -114,13 +122,13 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="/addMovie/" method="POST">
+            <form id="form" action="/addMovie/" method="POST">
                 {% csrf_token %}
                 <label for="fname">Nome:</label><br>
                 <input type="text" id="fname" name="fname"><br>
                 <label for="fduration">Duração:</label><br>
                 <input type="text" id="fduration" name="fduration"><br> 
-                   <input type="submit" id="add" value="ADICIONAR">   
+                   <input class="btn btn-primary" type="submit" id="add" value="ADICIONAR">   
                   <!-- <button type="submit" id="add" >ADD </button>   -->
               </form> 
              
@@ -144,6 +152,62 @@
     
 
 <!-- Scripts AJAX -->
+<!-- Scripts AJAX -->
+<script>
+  function deleteMovie(id){
+    var result = confirm("Tem certeza?");
+    if(result){
+      $.ajax({
+            'type': 'POST',
+            'url': '/deleteFilme/'+id+'/',
+            'contentType': 'application/json',
+            headers:{
+                "X-CSRFToken": '{{ csrf_token }}',
+            },
+            'data': {
+            },
+            'dataType': 'json',
+        success: function (data) {
+          document.getElementById(id).remove();
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+        });
+      }
+  }
+  
+  function showModalAdd(){
+      $('#exampleModalLong').modal('show');
+      document.getElementById("fname").value = ""
+      document.getElementById("fduration").value = ""
+      $('#form').attr('action', 'http://127.0.0.1:8000/addMovie/');
+    }
+  function showModalEdit(id){
+      $.ajax({
+          'type': 'POST',
+          'url': '/getMovieInfo/'+id+'/',
+          'contentType': 'application/json',
+          headers:{
+              "X-CSRFToken": '{{ csrf_token }}',
+          },
+          'data': {
+          },
+          'dataType': 'json',
+      success: function (data) {
+        nomeDoFilme = data.nome;
+        duracaoDoFilme = data.duracao;
+        $('#exampleModalLong').modal('show');
+        document.getElementById("fnome").value = nomeDoFilme
+        document.getElementById("fduracao").value = duracaoDoFilme
+        $('#form').attr('action', 'http://127.0.0.1:8000/editFilme/'+id+'/');
+      },
+      error: function (error) {
+          console.log(`Error ${error}`);
+      }
+      });
+  }
+</script> 
  
 
       <!--Scripts do Bootstrap -->

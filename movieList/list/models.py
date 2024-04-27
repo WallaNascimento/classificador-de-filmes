@@ -1,7 +1,7 @@
 from django.db import models
 
 from user.models import User
-
+import datetime 
 # Create your models here.
 
 class Movie(models.Model):
@@ -52,3 +52,13 @@ class Playlist(models.Model):
 
     def __str__(self):
         return self.user.name + "  -  " + self.movie.name
+
+class Evaluation(models.Model):
+    movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    classification = models.IntegerField()
+    comment = models.CharField(max_length=100)
+    publication = models.DateTimeField(auto_now_add=True)
+       
+    def __str__(self):
+        return str(self.user.name) + " - " + str(self.movie.name) + " - " + str(self.comment) + " - " + str(self.classification) + " - " + str(self.publication)

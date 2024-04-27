@@ -11,5 +11,7 @@ path('addGenreMovie/<str:pk>/', views.addGenreMovie, name='addGenreMovie'),
 path('getMovie/<str:pk>/', views.getMovie, name='getMovie'),
 path('addMovieStreaming/<str:pk>/', views.addMovieStreaming, name='addMovieStreaming'),
 path('search/', views.search, name='search'),
+path('addMoviePlaylist/<str:pk>/', views.addMoviePlaylist, name='addMoviePlaylist'),
+path('evaluation/', views.evaluation, name='evaluation'),
 
     ]

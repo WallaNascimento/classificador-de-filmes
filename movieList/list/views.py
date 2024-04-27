@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from django.http import HttpResponse
-from list.models import Movie, Genre, GenreMovie, Platform, MovieStreaming
+from list.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation
+from user.models import User
 
 # Create your views here.
 
@@ -63,8 +64,7 @@ def getMovie(request, pk):
         'platforms':platforms,
         'list_streaming_movie':list_streaming_movie,
         }
-    return render(request, 'showGenreMovie.html', context)
-
+    return render(request, 'showMovie.html', context)
 
 def addGenreMovie(request, pk):
     movie = Movie.objects.get(id=pk)
@@ -97,3 +97,35 @@ def search(request):
     search = Movie.objects.filter(name=name)
     
     return render(request, 'index.html', {'search':search})
+
+def addMoviePlaylist(request, pk):
+    movie = Movie.objects.get(id=pk)
+    userId = request.POST['fname']
+    user = User.objects.get(id=userId)
+    
+    newMoviePlaylist = Playlist (
+        movie = movie,
+        user = user,
+    )
+    newMoviePlaylist.save()
+    
+    return redirect('http://127.0.0.1:8000/')
+
+def evaluation(request):
+    userId = request.POST['idUser']
+    movieId = request.POST['idMovie']
+    movie = Movie.objects.get(id=movieId)
+    user = User.objects.get(id=userId)
+    classification = request.POST['cla']
+    comment = request.POST['fcomment']
+    newEvaluation = Evaluation(
+        movie = movie,
+        user = user,
+        classification = classification,
+        comment = comment,
+    )
+    newEvaluation.save()
+    
+    return redirect('http://127.0.0.1:8000/')
+            
+    
