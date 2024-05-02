@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from django.http import HttpResponse
-from list.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation
+from list.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like
 from user.models import User
 
 # Create your views here.
@@ -56,13 +56,18 @@ def getMovie(request, pk):
     genres = Genre.objects.all()
     list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
     platforms = Platform.objects.all()
-    
+    evaluation = Evaluation.objects.filter(movie__id=pk)
+
+    like = Like.objects.all()
+        
     context = {
         'genres': genres,
         'movie': movie,
         'list_genre_movie':list_genre_movie,
         'platforms':platforms,
         'list_streaming_movie':list_streaming_movie,
+        'evaluation': evaluation,
+        'like':like,
         }
     return render(request, 'showMovie.html', context)
 
@@ -100,7 +105,7 @@ def search(request):
 
 def addMoviePlaylist(request, pk):
     movie = Movie.objects.get(id=pk)
-    userId = request.POST['fname']
+    userId = request.user.id
     user = User.objects.get(id=userId)
     
     newMoviePlaylist = Playlist (
@@ -111,8 +116,22 @@ def addMoviePlaylist(request, pk):
     
     return redirect('http://127.0.0.1:8000/')
 
+def movieWatched(request, pk):
+    movie = Movie.objects.get(id=pk)
+    userId = request.user.id
+    user = User.objects.get(id=userId)
+    
+    newMovieWatched = MovieWatched (
+        movie = movie,
+        user = user,
+    )
+    newMovieWatched.save()
+    
+    return redirect('http://127.0.0.1:8000/')
+
+
 def evaluation(request):
-    userId = request.POST['idUser']
+    userId = request.user.id
     movieId = request.POST['idMovie']
     movie = Movie.objects.get(id=movieId)
     user = User.objects.get(id=userId)
@@ -127,5 +146,13 @@ def evaluation(request):
     newEvaluation.save()
     
     return redirect('http://127.0.0.1:8000/')
-            
+
+def like(request):
+    userId = request.user.id
+    user = User.objects.get(id=userId)
+    return HttpResponse()
+    
+    
+    #return redirect('http://127.0.0.1:8000/')
+        
     

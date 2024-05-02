@@ -62,3 +62,11 @@ class Evaluation(models.Model):
        
     def __str__(self):
         return str(self.user.name) + " - " + str(self.movie.name) + " - " + str(self.comment) + " - " + str(self.classification) + " - " + str(self.publication)
+    
+class Like(models.Model):
+    like = models.IntegerField()
+    deslike = models.IntegerField()
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    evaluation=models.ForeignKey(Evaluation, on_delete=models.CASCADE)
+    def __str__(self) :
+        return str(self.like) + "-" + str(self.deslike)

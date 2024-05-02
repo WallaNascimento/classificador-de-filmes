@@ -77,8 +77,8 @@
             </li>
     </ul>
     <div class="card-body">
-      <a href="#" class="card-link">Gostei</a><br>
-      <a href="#" class="card-link">Não gostei </a>
+      <!-- <a href="#" class="card-link">Gostei</a><br>
+      <a href="#" class="card-link">Não gostei </a> -->
     </div>
   </div>
   {%endfor%}
@@ -98,8 +98,8 @@
           </li>
   </ul>
   <div class="card-body">
-    <a href="#" class="card-link">Gostei</a><br>
-    <a href="#" class="card-link">Não gostei </a>
+    <!-- <a href="#" class="card-link">Gostei</a><br>
+    <a href="#" class="card-link">Não gostei </a> -->
   </div>
 </div>
     
@@ -107,10 +107,11 @@
     
     <div>
     <!-- Botão para acionar modal -->
+    {%if user.is_superuser%}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
     ADICIONAR FILME
   </button>
-  
+  {%endif%}
   <!-- Modal -->
   <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

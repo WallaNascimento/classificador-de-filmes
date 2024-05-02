@@ -66,12 +66,15 @@
         <div class="row">
       {{ movie }}
       <div class="col-sm">
+        <div>
+          <p>Tempo de duração: {{movie.duration}} minutos.</p>
+        </div>
         <h2 class="text-center">Gênero </h2>
       {% for element in list_genre_movie %} <BR>
           {{element.genre}}
       {% endfor %}
       {% if user.is_authenticated %}
-  
+  {%if user.is_superuser%}
       <form id="form" action="/addGenreMovie/{{movie.id}}/" method="POST">
           {% csrf_token %}
           <select name="fgenre" id="genero">
@@ -81,12 +84,17 @@
             </select>
           <input class="btn btn-primary" type="submit" value="Adicionar">
       </form>
+      {%endif%}
+      <div class="container row">
+      <div class="col-sm">
+      <a href="/addMoviePlaylist/{{movie.id}}/"><button>+ Playlist</button></a>
+      </div>
+      <div class="col-sm">
+        <a href="/movieWatched/{{movie.id}}/"><button> + Assistido </button></a>
+        </div>
 
-      <form id="form" action="/addMoviePlaylist/{{movie.id}}/" method="POST">
-        {% csrf_token %}
-        <button type="submit" name="fname" value="{{user.id}}">+ Playlist </button>
-    </form>
-      {%endif%} 
+      </div>
+            {%endif%}  
       </div>
       
       <div class="col-sm">
@@ -94,8 +102,8 @@
         {% for element in list_streaming_movie %} <BR>
             {{element.platform}}
         {% endfor %}
-        {% if user.is_authenticated %}
-    
+        {% if user.is_superuser%}
+        
         <form id="form" action="/addMovieStreaming/{{movie.id}}/" method="POST">
             {% csrf_token %}
             <select name="platform" id="platform">
@@ -114,7 +122,22 @@
 <hr>
 
 <section>
+  <div class="container">
   <h2> Comentários</h2>
+<div>
+  {%for element in evaluation%}
+  <p>{{element.user}}</p> 
+  <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> </p> -->
+  <p>Classificação: {{element.classification}}</p>
+    <p>Comentário: {{element.comment}}</p>
+      <p>Publicado em: {{element.publication}}</p>
+      {%for like in like%}
+      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i> Gostei +{{like.like}} pessoas</a>
+      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i>Não gostei +{{like.deslike}} pessoas</a>
+      {%endfor%}
+  {%endfor%}
+</div>
+
   {% if user.is_authenticated %}
               <div>
         <!-- Botão para acionar modal -->
@@ -136,8 +159,7 @@
                 <form id="form" action="/evaluation/" method="POST">
                     {% csrf_token %}
                     <input type="hidden" id="idMovie" name="idMovie" value="{{movie.id}}"><br>
-                    <input type="hidden" id="idUser" name="idUser" value="{{user.id}}"><br>
-                                        <select class="form-control" name="cla">
+                                                            <select class="form-control" name="cla"> 
                       <option value="1">RUIM</option>
                       <option value="2">MEDIANO</option>
                       <option value="3">BOM</option>
@@ -160,9 +182,11 @@
         </div>
       </div>
     {%else%}
-    <p> Fça login para avaliar.</p>
+    <p> Faça login para avaliar.</p>
     </div>
         {%endif%}
+
+        </div>
     </section>
 
 <!--Scripts do Bootstrap -->
