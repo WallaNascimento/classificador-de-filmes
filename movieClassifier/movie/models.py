@@ -7,6 +7,8 @@ import datetime
 class Movie(models.Model):
     name = models.CharField(max_length=100)
     duration = models.IntegerField()
+    description = models.CharField(max_length=500)
+    
   # date = models.DateField
       
     def __str__(self):

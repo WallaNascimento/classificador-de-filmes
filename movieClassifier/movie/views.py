@@ -21,9 +21,12 @@ def index(request):
 def addMovie(request):
     name = request.POST['fname']
     duration = request.POST['fduration']
+    description = request.POST['fdescription']
+    
     newMovie = Movie(
         name = name,
         duration = duration,
+        description = description,
     )
     newMovie.save()
     return redirect('http://127.0.0.1:8000/')
@@ -43,8 +46,11 @@ def updateMovie(request, pk):
     
     name = request.POST['fname']
     duration = request.POST['fduration']
+    description = request.POST['fdescription']
+    
     movie.name = name
     movie.duration = duration
+    movie.description = description
     
     movie.save()
     return redirect('http://127.0.0.1:8000/')

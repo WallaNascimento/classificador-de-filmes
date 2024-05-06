@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
 
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -43,16 +44,17 @@ def loginUser(request):
     email = request.POST['femail']
     password = request.POST['fpassword']
 
-    user = User.objects.get(email = email) 
-    username=user.name
-    user = authenticate(username=username, password = password)
+    username = User.objects.get(email = email.lower()).name
+    #username=user.name
+    user = authenticate(request, username=username, password = password)
+   
     if user is not None:
-        logining(request, user)
-        return redirect('http://127.0.0.1:8000/')
+         logining(request, user)
+         return redirect('http://127.0.0.1:8000/')
     else:
-        return render(request, 'login.html', {'msg': "Error! Usuário não encontrado."})
+        return HttpResponse(username)
+        #return render(request, 'login.html', {'msg': "Error! Usuário não encontrado."})
 
-        #return render(request, 'index.html')
     
     
 def logout(request):
