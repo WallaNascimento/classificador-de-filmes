@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 
-
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from user.models import User 
 #from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 from django.contrib.auth import authenticate, login as logining
 
 # Create your views here.
@@ -28,7 +31,7 @@ def registerUser(request):
 
     #newUser = User.objects.create_user(username=name, email=email, password=password)
         newUser = User(
-        name = name,
+        username = name,
         email = email,
         number = number,
         password = password,
@@ -44,15 +47,14 @@ def loginUser(request):
     email = request.POST['femail']
     password = request.POST['fpassword']
 
-    username = User.objects.get(email = email.lower()).name
-    #username=user.name
-    user = authenticate(request, username=username, password = password)
-   
+    #username = User.objects.get(email = email).email
+    user = authenticate(request, email=email, password = password)
+    #if user.check_password(password) and user.user_can_authenticate(user):  
     if user is not None:
          logining(request, user)
          return redirect('http://127.0.0.1:8000/')
     else:
-        return HttpResponse(username)
+        return HttpResponse(user)
         #return render(request, 'login.html', {'msg': "Error! Usuário não encontrado."})
 
     

@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like
 from user.models import User
 
+#from django.contrib.auth.models import User
+
 # Create your views here.
 
 def index(request):
