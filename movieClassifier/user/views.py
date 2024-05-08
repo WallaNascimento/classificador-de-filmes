@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
-from user.models import User 
+from user.models import User, Follow 
 #from django.contrib.auth.models import User
 
 from django.contrib.auth import get_user_model
@@ -65,15 +65,15 @@ def logout(request):
     request.session.flush()
     return redirect('http://127.0.0.1:8000/')
 
-# def follow(request, pk):
-#     userId = request.user.id
-#     user = User.objects.get(id=userId)
-#     userFollow = User.objects.get(id=pk)
-#     #newFollow = Follow(
-#         user = user,
-#         userFollow = userFollow,
-#     )
-#     newFollow.save()
-        
-#     return redirect('http://127.0.0.1:8000/')
+def follow(request, pk):
+    userId = request.user.id
+    following = User.objects.get(id=userId)
+    followers = User.objects.get(id=pk)
+
+    Follow.objects.create(
+        following=following,
+                             followers=followers)
+    #newFollow.save()
+       
+    return redirect('http://127.0.0.1:8000/')
  

@@ -127,16 +127,18 @@
   <h2> Comentários</h2>
 <div>
   {%for element in evaluation%}
-  <p>{{element.user}}</p> 
-  <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> </p> -->
+  <p>{{element.user}} 
+   <a href="/follow/{{element.user.id}}/">SEGUIR </a> </p> 
   <p>Classificação: {{element.classification}}</p>
     <p>Comentário: {{element.comment}}</p>
       <p>Publicado em: {{element.publication}}</p>
+      
       {%for like in like%}
-      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i> Gostei +{{like.like}} pessoas</a>
-      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i>Não gostei +{{like.deslike}} pessoas</a>
+      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i> Gostei +{{like.like}} pessoa(s)</a>
+      <a class="btn btn-secondary" href="#"> <i class="fa fa-thumbs-up"></i>Não gostei +{{like.deslike}} pessoa(s)</a>
       {%endfor%}
-  {%endfor%}
+  
+      {%endfor%}
 </div>
 
   {% if user.is_authenticated %}

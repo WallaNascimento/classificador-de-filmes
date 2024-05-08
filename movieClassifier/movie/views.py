@@ -67,6 +67,8 @@ def getMovie(request, pk):
     evaluation = Evaluation.objects.filter(movie__id=pk)
 
     like = Like.objects.all()
+    
+     
         
     context = {
         'genres': genres,
