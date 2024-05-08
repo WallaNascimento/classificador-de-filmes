@@ -36,6 +36,8 @@ def registerUser(request):
         number = number,
         password = password,
     )
+        newUser.set_password(password)
+        
         newUser.save()
     
         return render(request, 'index.html') 

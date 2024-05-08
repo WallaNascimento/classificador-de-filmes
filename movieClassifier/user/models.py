@@ -41,5 +41,5 @@ class User(PermissionsMixin, AbstractBaseUser):
         return True# self.is_admin
     
     def __str__(self):
-        return self.email
+        return self.username
 

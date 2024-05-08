@@ -46,14 +46,14 @@ class MovieWatched(models.Model):
      user=models.ForeignKey(User, on_delete=models.CASCADE)
 
      def __str__(self):
-         return self.user.name + "  -  " + self.movie.name
+         return self.user.username + "  -  " + self.movie.name
 
 class Playlist(models.Model):
     movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
     user=models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.name + "  -  " + self.movie.name
+        return self.user.username + "  -  " + self.movie.name
 
 class Evaluation(models.Model):
     movie=models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -63,7 +63,7 @@ class Evaluation(models.Model):
     publication = models.DateTimeField(auto_now_add=True)
        
     def __str__(self):
-        return str(self.user.name) + " - " + str(self.movie.name) + " - " + str(self.comment) + " - " + str(self.classification) + " - " + str(self.publication)
+        return str(self.user.username) + " - " + str(self.movie.name) + " - " + str(self.comment) + " - " + str(self.classification) + " - " + str(self.publication)
     
 class Like(models.Model):
     like = models.IntegerField()
