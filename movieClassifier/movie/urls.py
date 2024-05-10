@@ -14,4 +14,6 @@ path('search/', views.search, name='search'),
 path('addMoviePlaylist/<str:pk>/', views.addMoviePlaylist, name='addMoviePlaylist'),
 path('evaluation/', views.evaluation, name='evaluation'),
 path('movieWatched/<str:pk>/', views.movieWatched, name='movieWatched'),
+path('like/<str:pk>/', views.like, name='like'),
+path('dislike/<str:pk>/', views.dislike, name='dislike'),
     ]

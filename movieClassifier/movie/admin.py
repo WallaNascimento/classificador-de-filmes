@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models  import Movie, Genre, GenreMovie, Platform, MovieStreaming, MovieWatched, Playlist, Evaluation, Like 
+from .models  import Movie, Genre, GenreMovie, Platform, MovieStreaming, MovieWatched, Playlist, Evaluation, Like, Dislike 
 
 # Register your models here.
 admin.site.register(Movie)
@@ -14,5 +14,6 @@ admin.site.register(MovieStreaming)
 admin.site.register(MovieWatched)
 admin.site.register(Playlist)
 admin.site.register(Evaluation)
-admin.site.register(Like)
 
+admin.site.register(Like)
+admin.site.register(Dislike)

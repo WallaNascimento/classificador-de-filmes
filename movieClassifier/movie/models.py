@@ -61,14 +61,27 @@ class Evaluation(models.Model):
     classification = models.IntegerField()
     comment = models.CharField(max_length=100)
     publication = models.DateTimeField(auto_now_add=True)
-       
+
+    def full_likes(self):
+        return self.likes.users.count()
+    
+    def full_dislikes(self):
+        return self.dislikes.users.count()
+           
     def __str__(self):
         return str(self.user.username) + " - " + str(self.movie.name) + " - " + str(self.comment) + " - " + str(self.classification) + " - " + str(self.publication)
     
 class Like(models.Model):
-    like = models.IntegerField(default=0)
-    deslike = models.IntegerField(default=0)
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    evaluation=models.ForeignKey(Evaluation, on_delete=models.CASCADE)
-    def __str__(self) :
-        return str(self.like) + "-" + str(self.deslike)
+    evaluation = models.OneToOneField(Evaluation, related_name="likes", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='evaluation_likes')
+    
+    def __str__(self):
+        return str(self.evaluation.comment) 
+    
+class Dislike(models.Model):
+    evaluation = models.OneToOneField(Evaluation, related_name="dislikes", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='evaluation_dislikes')
+    
+    def __str__(self):
+        return str(self.evaluation.comment)
+       

@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 
-from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like
-from user.models import User
+from user.models import User, Follow
 
 #from django.contrib.auth.models import User
 
@@ -67,9 +66,9 @@ def getMovie(request, pk):
     evaluation = Evaluation.objects.filter(movie__id=pk)
 
     like = Like.objects.all()
-    
-     
         
+    follow = Follow.objects.all()
+            
     context = {
         'genres': genres,
         'movie': movie,
@@ -78,6 +77,7 @@ def getMovie(request, pk):
         'list_streaming_movie':list_streaming_movie,
         'evaluation': evaluation,
         'like':like,
+        'follow':follow,
         }
     return render(request, 'showMovie.html', context)
 
@@ -156,13 +156,21 @@ def evaluation(request):
     newEvaluation.save()
     
     return redirect('http://127.0.0.1:8000/')
-
-def like(request):
+#Função de like, fazer lógica para create quando verificado avaliação==None
+def like(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
-    return HttpResponse()
+    evaluation = Evaluation.objects.get(id=pk)
+    evaluation.likes.users.add(user)
+
+    return redirect('http://127.0.0.1:8000/')
+
+#Função de dislike, fazer lógica para create quando verificado avaliação==None
+def dislike(request, pk):
+    userId = request.user.id
+    user = User.objects.get(id=userId)
+    evaluation = Evaluation.objects.get(id=pk)
+    evaluation.dislikes.users.add(user)
     
-    
-    #return redirect('http://127.0.0.1:8000/')
-        
-    
+    return redirect('http://127.0.0.1:8000/')
+
