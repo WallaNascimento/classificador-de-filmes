@@ -137,13 +137,23 @@
       
       <div class="container row">
         <div class="col-sm">
-        <a href="/like/{{element.id}}/"> Gostei + {{element.full_likes}} pessoa(s)</a>
+        <a href="/like/{{element.id}}/">
+          {%if element.full_likes%}
+           Gostei + {{element.full_likes}} pessoa(s)
+          {%else%} Gostei + 0 pessoa(s)
+          {%endif%}
+          </a>
         </div>
         <div class="col-sm">
-        <a href="/dislike/{{element.id}}/"> Não gostei + {{element.full_dislikes}} pessoa(s)</a>
+        <a href="/dislike/{{element.id}}/">
+          {%if element.full_dislikes%}
+                     Não gostei + {{element.full_dislikes}} pessoa(s)
+{%else%} Não gostei + 0 pessoa(s)
+{%endif%}
+                    </a>
               </div>
       </div>
-   
+         
       {%endfor%}
 </div>
 

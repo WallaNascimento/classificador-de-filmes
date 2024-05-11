@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from django.http import JsonResponse, HttpResponse
-from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 from user.models import User, Follow
 
 #from django.contrib.auth.models import User
@@ -161,8 +161,14 @@ def like(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
     evaluation = Evaluation.objects.get(id=pk)
-    evaluation.likes.users.add(user)
-
+    try:
+        evaluation.likes.users.add(user)
+    except Evaluation.likes.RelatedObjectDoesNotExist:# as identifier:
+        Like.objects.create(
+            evaluation = evaluation
+        )
+        evaluation.likes.users.add(user)
+         
     return redirect('http://127.0.0.1:8000/')
 
 #Função de dislike, fazer lógica para create quando verificado avaliação==None
@@ -170,7 +176,14 @@ def dislike(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
     evaluation = Evaluation.objects.get(id=pk)
-    evaluation.dislikes.users.add(user)
-    
-    return redirect('http://127.0.0.1:8000/')
+    try:
+        evaluation.dislikes.users.add(user)
+    except Evaluation.dislikes.RelatedObjectDoesNotExist:# as identifier:
+        Dislike.objects.create(
+            evaluation = evaluation
+        )
+        evaluation.dislikes.users.add(user)
+       
+    return HttpResponseRedirect('http://127.0.0.1:8000/')
+    #return redirect('http://127.0.0.1:8000/')
 
