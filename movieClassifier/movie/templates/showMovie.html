@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VISUALIZAÇÃO</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+  </head>
 <body>
   <section>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -131,26 +135,30 @@
        <a href="/follow/{{element.user.id}}/">SEGUIR </a>
   </p> 
   
-  <p>Classificação: {{element.classification}}</p>
+  <p >Classificação: {{element.classification}} </p>
     <p>Comentário: {{element.comment}}</p>
       <p>Publicado em: {{element.publication}}</p>
       
-      <div class="container row">
+          <div class="container row">
         <div class="col-sm">
         <a href="/like/{{element.id}}/">
-          {%if element.full_likes%}
+          <i class="like fas fa-thumbs-up pr-2">
+                    {%if element.full_likes%}
            Gostei + {{element.full_likes}} pessoa(s)
           {%else%} Gostei + 0 pessoa(s)
           {%endif%}
-          </a>
+          </i>
+        </a>
         </div>
         <div class="col-sm">
         <a href="/dislike/{{element.id}}/">
+          <i class="fas fa-thumbs-down pr-2">
           {%if element.full_dislikes%}
                      Não gostei + {{element.full_dislikes}} pessoa(s)
 {%else%} Não gostei + 0 pessoa(s)
 {%endif%}
-                    </a>
+          </i>                    
+</a>
               </div>
       </div>
          
@@ -207,6 +215,8 @@
 
         </div>
     </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!--Scripts do Bootstrap -->
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
