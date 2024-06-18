@@ -128,21 +128,21 @@
 
 <section>
   <div class="container">
-  <h2> Comentários</h2>
+  <h2> <i class="fa-regular fa-comment"> Comentários </i></h2>
 <div>
   {%for element in evaluation%}
-  <p>{{element.user}}
+  <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
        <a href="/follow/{{element.user.id}}/">SEGUIR </a>
   </p> 
   
-  <p >Classificação: {{element.classification}} </p>
+  <p >Classificação: {{element.classification}}</p> 
     <p>Comentário: {{element.comment}}</p>
       <p>Publicado em: {{element.publication}}</p>
       
           <div class="container row">
         <div class="col-sm">
         <a href="/like/{{element.id}}/">
-          <i class="like fas fa-thumbs-up pr-2">
+          <i class=" fas fa-thumbs-up pr-2">
                     {%if element.full_likes%}
            Gostei + {{element.full_likes}} pessoa(s)
           {%else%} Gostei + 0 pessoa(s)
