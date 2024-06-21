@@ -9,6 +9,7 @@
 <body>
     <h1> FAZER LOGIN</h1>
     {{msg}}
+    
     <form action="/loginUser/" method="POST">
         {% csrf_token %}
         <label for="femail">E-mail:</label><br>

@@ -131,10 +131,20 @@
   <h2> <i class="fa-regular fa-comment"> Comentários </i></h2>
 <div>
   {%for element in evaluation%}
-  <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
-       <a href="/follow/{{element.user.id}}/">SEGUIR </a>
-  </p> 
+{%for follow in follow%}
+  {% if follow.following.is_authenticated and follow.followers.element.user%}
   
+  <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
+       <a href="/follow/{{element.user.id}}/">SEGUINDO </a>
+  </p>
+  {%else%} 
+  <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/follow/{{element.user.id}}/">SEGUIR </a>
+</p> 
+
+  {%endif%}
+  {%endfor%}
+
   <p >Classificação: {{element.classification}}</p> 
     <p>Comentário: {{element.comment}}</p>
       <p>Publicado em: {{element.publication}}</p>

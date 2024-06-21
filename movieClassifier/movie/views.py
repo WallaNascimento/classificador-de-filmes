@@ -36,8 +36,18 @@ def deleteMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     movie.delete()
     return redirect('http://127.0.0.1:8000/')
+    #return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+
 
 def update(request, pk):
+    movie = Movie.objects.get(id=pk)
+#     newMovie = {
+# "name": movie.name,
+#             "duration": movie.duration,
+#             "description": movie.description, 
+# }
+#     return JsonResponse(newMovie)
+
     movie = Movie.objects.get(id=pk)
         
     return render(request, 'updateMovie.html',{"Movie":movie})

@@ -44,9 +44,9 @@ class User(PermissionsMixin, AbstractBaseUser):
         return self.username
 
 class Follow(models.Model):
-    following = models.ForeignKey("User", related_name="following", on_delete=models.CASCADE)
-    followers = models.ForeignKey("User", related_name="followers", on_delete=models.CASCADE)
+    follower = models.OneToOneField(User, related_name="follower", on_delete=models.CASCADE)
+    following = models.ManyToManyField("User", related_name="following")
 
 
     def __str__(self):
-         return str(self.following.username) + "Seguindo" + str(self.followers.username)
+         return str(self.follower.username) + "Seguindo" + str(self.following.username)
