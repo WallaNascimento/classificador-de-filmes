@@ -40,13 +40,15 @@ class User(PermissionsMixin, AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True# self.is_admin
     
+    
     def __str__(self):
         return self.username
 
 class Follow(models.Model):
-    follower = models.OneToOneField(User, related_name="follower", on_delete=models.CASCADE)
-    following = models.ManyToManyField("User", related_name="following")
-
+    user = models.OneToOneField(User, related_name="users", on_delete=models.CASCADE)
+    following = models.ManyToManyField('User', symmetrical=False, related_name="followers")
+    
 
     def __str__(self):
-         return str(self.follower.username) + "Seguindo" + str(self.following.username)
+        return str(self.user) + "Seguindo" +  str(User.objects.filter(followers=self)) #.count()
+    

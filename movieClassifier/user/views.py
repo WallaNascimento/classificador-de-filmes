@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from user.models import User, Follow 
 #from django.contrib.auth.models import User
-
+#acima comentar
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -67,13 +67,21 @@ def logout(request):
 
 def follow(request, pk):
     userId = request.user.id
-    following = User.objects.get(id=userId)
-    followers = User.objects.get(id=pk)
+    user = User.objects.get(id=userId)
+    
+    userFollowing = User.objects.get(id=pk)
+    try:      
+        user.users.following.add(userFollowing)
+    except User.users.RelatedObjectDoesNotExist:
+        newUser = Follow(
+     user =user
+ )
+             
+        newUser.save()
+        user.users.following.add(userFollowing)
 
-    Follow.objects.create(
-        following=following,
-                             followers=followers)
-    #newFollow.save()
-       
+
+                       
+        
     return redirect('http://127.0.0.1:8000/')
  
