@@ -70,12 +70,17 @@ def follow(request, pk):
     user = User.objects.get(id=userId)
     
     userFollowing = User.objects.get(id=pk)
-    try:      
-        user.users.following.add(userFollowing)
+    following = user.users.following.all()
+    
+    try:
+        if userFollowing in following:      
+            user.users.following.remove(userFollowing)
+        else:
+            user.users.following.add(userFollowing)
     except User.users.RelatedObjectDoesNotExist:
         newUser = Follow(
-     user =user
- )
+      user =user
+  )
              
         newUser.save()
         user.users.following.add(userFollowing)
