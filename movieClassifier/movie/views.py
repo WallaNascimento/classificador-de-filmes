@@ -171,9 +171,15 @@ def like(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
     evaluation = Evaluation.objects.get(id=pk)
+    
+    
     try:
-        evaluation.likes.users.add(user)
-    except Evaluation.likes.RelatedObjectDoesNotExist:# as identifier:
+        userLike = evaluation.likes.users.all()
+        if user in userLike:
+            evaluation.likes.users.remove(user)
+        else:
+            evaluation.likes.users.add(user)
+    except Evaluation.likes.RelatedObjectDoesNotExist:
         Like.objects.create(
             evaluation = evaluation
         )
@@ -186,9 +192,14 @@ def dislike(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
     evaluation = Evaluation.objects.get(id=pk)
+    
     try:
-        evaluation.dislikes.users.add(user)
-    except Evaluation.dislikes.RelatedObjectDoesNotExist:# as identifier:
+        userDislike = evaluation.dislikes.users.all()
+        if user in userDislike:
+            evaluation.dislikes.users.remove(user)
+        else:
+            evaluation.dislikes.users.add(user)
+    except Evaluation.dislikes.RelatedObjectDoesNotExist:
         Dislike.objects.create(
             evaluation = evaluation
         )

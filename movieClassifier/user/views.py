@@ -70,9 +70,10 @@ def follow(request, pk):
     user = User.objects.get(id=userId)
     
     userFollowing = User.objects.get(id=pk)
-    following = user.users.following.all()
+    
     
     try:
+        following = user.users.following.all()
         if userFollowing in following:      
             user.users.following.remove(userFollowing)
         else:
