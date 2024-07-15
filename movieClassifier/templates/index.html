@@ -10,7 +10,7 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  
+
 </head>
 
 <body>
@@ -27,7 +27,7 @@
           <div class="col-sm">
             <ul class=" navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="">Início <span class="sr-only">(página inicial)</span></a>
+                <a class="nav-link" href="http://127.0.0.1:8000">Início <span class="sr-only">(página inicial)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Sobre</a>
@@ -40,7 +40,7 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Perfil</a><br>
+                  <a class="dropdown-item" href="profile/">Perfil</a><br>
                   <a class="dropdown-item" href="/logout">Sair</a>
                   {% else %}
 
@@ -109,18 +109,19 @@
       <li class="list-group-item"><a href="/update/{{movie.id}}/"><button>Atualizar</button></a> </li>
       <li class="list-group-item"><a href="/deleteMovie/{{movie.id}}/"><button>Deletar</button></a>
       </li>
-      
+
       {%endif%}
 
     </ul>
 
-<div class="card-body">
+    <div class="card-body">
       <!-- <a href="#" class="card-link">Gostei</a><br>
     <a href="#" class="card-link">Não gostei </a> -->
     </div>
   </div>
   
-   {%endfor%}
+
+  {%endfor%}
 
   <div>
     <!-- Botão para acionar modal -->
@@ -151,7 +152,7 @@
               <input type="text" id="fdescription" name="fdescription"><br>
 
               <!-- <input class="btn btn-primary" type="submit" id="add" value="ADICIONAR"> -->
-              <button onclick="addMovie()">ADD </button>  
+              <button onclick="addMovie()">ADD </button>
             </form>
 
           </div>
@@ -164,17 +165,20 @@
     </div>
 
   </div>
-  
+
+
   <!-- Scripts AJAX -->
   <!-- Scripts AJAX -->
+
   <script>
+
     function deleteMovie(id) {
       var result = confirm("Tem certeza?");
       if (result) {
         $.ajax({
           'type': 'POST',
-          'url': '/deleteMovie/' + id + '/',
-          'contentType': 'application/json',
+           'url': '/deleteMovie/' + id + '/',
+                     'contentType': 'application/json',
           headers: {
             "X-CSRFToken": '{{ csrf_token }}',
           },
@@ -192,12 +196,12 @@
     }
 
     function addMovie() {
-      document.getElementById("fname").value 
-      document.getElementById("fduration").value 
-      document.getElementById("fdescription").value 
+      document.getElementById("fname").value
+      document.getElementById("fduration").value
+      document.getElementById("fdescription").value
       $('#form').attr('action', 'http://127.0.0.1:8000/addMovie/');
     }
-    
+
     function updateMovie(id) {
       $.ajax({
         'type': 'POST',
@@ -212,9 +216,9 @@
         success: function (data) {
           nameOfMovie = data.name;
           durationOfMovie = data.duration;
-          descriptionOfMovie=data.description;
+          descriptionOfMovie = data.description;
           // $('#modalExemplo').modal();
-           document.getElementById("fname").value = nameOfMovie
+          document.getElementById("fname").value = nameOfMovie
           document.getElementById("fduration").value = durationOfMovie
           document.getElementById("fdescription").value = descriptionOfMovie
           $('#form').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
@@ -226,7 +230,6 @@
     }
   </script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <!--Scripts do Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

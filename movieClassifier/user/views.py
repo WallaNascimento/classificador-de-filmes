@@ -4,11 +4,12 @@ from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from user.models import User, Follow 
 #from django.contrib.auth.models import User
-#acima comentar
+
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from django.contrib.auth import authenticate, login as logining
+#from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 
 # Create your views here.
 
@@ -64,6 +65,14 @@ def loginUser(request):
 def logout(request):
     request.session.flush()
     return redirect('http://127.0.0.1:8000/')
+
+def profile(request):
+    userId = request.user.id
+    user = User.objects.get(id=userId)
+    context = {
+        'user':user
+    }
+    return render(request, 'profile.html', context)
 
 def follow(request, pk):
     userId = request.user.id
