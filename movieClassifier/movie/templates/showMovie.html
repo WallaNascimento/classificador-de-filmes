@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -143,17 +145,22 @@
         {% if user.users in element.user.followers.filter%}
 
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="/follow/{{element.user.id}}/">SEGUINDO </a>
+          <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUINDO </button>
+          <!-- <a href="/follow/{{element.user.id}}/">SEGUINDO </a> -->
         </p>
         {%else%}
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="/follow/{{element.user.id}}/">SEGUIR </a>
+          <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUIR</button>
+          <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> -->
         </p>
-        {%endif%}
+        
+{%endif%}
         {%else%}
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="/follow/{{element.user.id}}/">SEGUIR </a>
+          <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUIR </button>
+          <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> -->
         </p>
+
         {%endif%}
 
         <p>Classificação: {{element.classification}}</p>
@@ -239,12 +246,42 @@
     </div>
   </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+      function userFollower(id) {
+      // var result = confirm("Tem certeza?");
+      // if (result) {
+        
+        $.ajax({
+                    type: 'POST',
+           url: '/follow/' +id+'/',
+                      contentType: 'application/json',
+                     
+                     headers: {
+             "X-CSRFToken": '{{ csrf_token }}',
+           },
+          data:{ 
+          },
 
+          'dataType': 'json',
+          success: function (data) {
+            location.reload();           
+            //  document.getElementById(id).remove();
+          },
+          error: function (error) {
+            
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    
+
+  
+  </script>
+  
   <!--Scripts do Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>

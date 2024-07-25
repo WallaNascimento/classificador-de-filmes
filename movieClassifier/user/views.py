@@ -98,5 +98,5 @@ def follow(request, pk):
 
                        
         
-    return redirect('http://127.0.0.1:8000/')
- 
+    #return redirect('http://127.0.0.1:8000/')
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
