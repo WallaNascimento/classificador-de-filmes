@@ -185,8 +185,8 @@ def like(request, pk):
         )
         evaluation.likes.users.add(user)
          
-    return redirect('http://127.0.0.1:8000/')
-
+    #return redirect('http://127.0.0.1:8000/')
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 #Função de dislike, fazer lógica para create quando verificado avaliação==None
 def dislike(request, pk):
     userId = request.user.id
@@ -205,6 +205,6 @@ def dislike(request, pk):
         )
         evaluation.dislikes.users.add(user)
        
-    return HttpResponseRedirect('http://127.0.0.1:8000/')
-    #return redirect('http://127.0.0.1:8000/')
+    
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 

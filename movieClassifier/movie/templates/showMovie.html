@@ -170,24 +170,24 @@
 
         <div class="container row">
           <div class="col-sm">
-            <a href="/like/{{element.id}}/">
-              <i class=" fas fa-thumbs-up pr-2">
+            <button type="button" onclick="like('{{element.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                          <i class=" fas fa-thumbs-up pr-2">
                 {%if element.full_likes%}
                 Gostei + {{element.full_likes}} pessoa(s)
                 {%else%} Gostei + 0 pessoa(s)
                 {%endif%}
               </i>
-            </a>
+                      </button>
           </div>
           <div class="col-sm">
-            <a href="/dislike/{{element.id}}/">
-              <i class="fas fa-thumbs-down pr-2">
+            <button type="button" onclick="dislike('{{element.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                          <i class="fas fa-thumbs-down pr-2">
                 {%if element.full_dislikes%}
                 Não gostei + {{element.full_dislikes}} pessoa(s)
                 {%else%} Não gostei + 0 pessoa(s)
                 {%endif%}
               </i>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -274,8 +274,60 @@
         });
       }
     
+      function like(id) {
+      // var result = confirm("Tem certeza?");
+      // if (result) {
+        
+        $.ajax({
+                    type: 'POST',
+           url: '/like/' +id+'/',
+                      contentType: 'application/json',
+                     
+                     headers: {
+             "X-CSRFToken": '{{ csrf_token }}',
+           },
+          data:{ 
+          },
 
-  
+          'dataType': 'json',
+          success: function (data) {
+            location.reload();           
+            //  document.getElementById(id).remove();
+          },
+          error: function (error) {
+            
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    
+      function dislike(id) {
+      // var result = confirm("Tem certeza?");
+      // if (result) {
+        
+        $.ajax({
+                    type: 'POST',
+           url: '/dislike/' +id+'/',
+                      contentType: 'application/json',
+                     
+                     headers: {
+             "X-CSRFToken": '{{ csrf_token }}',
+           },
+          data:{ 
+          },
+
+          'dataType': 'json',
+          success: function (data) {
+            location.reload();           
+            //  document.getElementById(id).remove();
+          },
+          error: function (error) {
+            
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    
   </script>
   
   <!--Scripts do Bootstrap -->
