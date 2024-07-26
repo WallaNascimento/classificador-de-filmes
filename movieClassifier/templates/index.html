@@ -27,7 +27,8 @@
           <div class="col-sm">
             <ul class=" navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="http://127.0.0.1:8000">Início <span class="sr-only">(página inicial)</span></a>
+                <a class="nav-link" href="http://127.0.0.1:8000">Início <span class="sr-only">(página
+                    inicial)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Sobre</a>
@@ -107,10 +108,11 @@
       <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{movie.id}}"> Visualizar </a> </li>
       {%if user.is_superuser %}
       <li class="list-group-item"><a href="/update/{{movie.id}}/"><button>Atualizar</button></a> </li>
-      <li class="list-group-item"> 
+      <li class="list-group-item">
         <button type="button" onclick="deleteMovie('{{movie.id}}')">
-          DELETAR 
-         </button>  </li>
+          DELETAR
+        </button>
+      </li>
 
       {%endif%}
 
@@ -121,8 +123,8 @@
     <a href="#" class="card-link">Não gostei </a> -->
     </div>
   </div>
- 
- 
+
+
 
   {%endfor%}
 
@@ -155,7 +157,7 @@
               <input type="text" id="fdescription" name="fdescription"><br>
 
               <!-- <input class="btn btn-primary" type="submit" id="add" value="ADICIONAR"> -->
-              <button onclick="addMovie()">ADD </button>
+              <button onclick="addMovie()">SALVAR </button>
             </form>
 
           </div>
@@ -168,7 +170,7 @@
     </div>
 
   </div>
- 
+
   <!-- Scripts AJAX -->
   <!-- Scripts AJAX -->
 
@@ -178,74 +180,97 @@
     function deleteMovie(id) {
       var result = confirm("Tem certeza?");
       if (result) {
-        
+
         $.ajax({
-                    type: 'POST',
-           url: '/deleteMovie/' +id+'/',
-                      contentType: 'application/json',
-                     
-                     headers: {
-             "X-CSRFToken": '{{ csrf_token }}',
-           },
-          data:{ 
+          type: 'POST',
+          url: '/deleteMovie/' + id + '/',
+          contentType: 'application/json',
+
+          headers: {
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          data: {
           },
 
           'dataType': 'json',
           success: function (data) {
-                       document.getElementById(id).remove();
+            document.getElementById(id).remove();
           },
           error: function (error) {
-            
+
             console.log(`Error ${error}`);
           }
         });
       }
     }
 
-    
 
-    function addMovie() {
-      document.getElementById("fname").value
-      document.getElementById("fduration").value
-      document.getElementById("fdescription").value
-      $('#form').attr('action', 'http://127.0.0.1:8000/addMovie/');
-    }
-
-    function updateMovie(id) {
+    function addMovie(){
+$fname=document.getElementById("fname").value
+      $fduration=document.getElementById("fduration").value
+      $fdescription=document.getElementById("fdescription").value
+      
       $.ajax({
-        'type': 'POST',
-        'url': '/update/' + id + '/',
-        'contentType': 'application/json',
-        headers: {
-          "X-CSRFToken": '{{ csrf_token }}',
-        },
-        'data': {
-        },
-        'dataType': 'json',
-        success: function (data) {
-          nameOfMovie = data.name;
-          durationOfMovie = data.duration;
-          descriptionOfMovie = data.description;
-          // $('#modalExemplo').modal();
-          document.getElementById("fname").value = nameOfMovie
-          document.getElementById("fduration").value = durationOfMovie
-          document.getElementById("fdescription").value = descriptionOfMovie
-          $('#form').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
-        },
-        error: function (error) {
-          console.log(`Error ${error}`);
-        }
-      });
-    }
+                          type: 'POST',
+                 url: '/addMovie/',
+                            // contentType: 'application/json',
+                           
+                           headers: {
+                   "X-CSRFToken": '{{ csrf_token }}',
+                 },
+                data:{
+                  fname:$fname,
+                  fduration:$fduration,
+                  fdescription:$fdescription, 
+                },
+      
+                //  'dataType': 'json',
+                success: function (data) {
+                   location.reload();           
+                            
+                },
+                error: function (error) {
+                  
+                  console.log(`Error ${error}`);
+                }
+              });
+            }
+    
+      function updateMovie(id) {
+                $.ajax({
+          'type': 'POST',
+          'url': '/update/' + id + '/',
+          'contentType': 'application/json',
+          headers: {
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          'data': {
+          },
+          'dataType': 'json',
+          success: function (data) {
+            nameOfMovie = data.name;
+            durationOfMovie = data.duration;
+            descriptionOfMovie = data.description;
+            // $('#modalExemplo').modal();
+            document.getElementById("fname").value = nameOfMovie
+            document.getElementById("fduration").value = durationOfMovie
+            document.getElementById("fdescription").value = descriptionOfMovie
+            $('#form').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
+          },
+          error: function (error) {
+            console.log(`Error ${error}`);
+          }
+        });
+      }
   </script>
 
 
   <!--Scripts do Bootstrap -->
-     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script> 
    -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"

@@ -79,24 +79,22 @@ def follow(request, pk):
     user = User.objects.get(id=userId)
     
     userFollowing = User.objects.get(id=pk)
-    
-    
-    try:
-        following = user.users.following.all()
-        if userFollowing in following:      
-            user.users.following.remove(userFollowing)
-        else:
-            user.users.following.add(userFollowing)
-    except User.users.RelatedObjectDoesNotExist:
-        newUser = Follow(
-      user =user
-  )
+    if user != userFollowing:
+        try:
+            following = user.users.following.all()
+            if userFollowing in following:      
+                user.users.following.remove(userFollowing)
+            else:
+                user.users.following.add(userFollowing)
+        except User.users.RelatedObjectDoesNotExist:
+            newUser = Follow(
+          user =user
+      )
              
-        newUser.save()
-        user.users.following.add(userFollowing)
-
-
-                       
-        
-    #return redirect('http://127.0.0.1:8000/')
-    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+            newUser.save()
+            user.users.following.add(userFollowing)
+    
+        return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+    else:
+        return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+    

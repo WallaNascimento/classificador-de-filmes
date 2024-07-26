@@ -100,10 +100,12 @@
           {%endif%}
           <div class="container row">
             <div class="col-sm">
-              <a href="/addMoviePlaylist/{{movie.id}}/"><button>+ Playlist</button></a>
+              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')"> + Playlist </button>
+              <!-- <a href="/addMoviePlaylist/{{movie.id}}/"><button>+ Playlist</button></a> -->
             </div>
             <div class="col-sm">
-              <a href="/movieWatched/{{movie.id}}/"><button> + Assistido </button></a>
+              <button type="button" onclick="addMovieWatched('{{movie.id}}')"> + Assistido </button>
+              <!-- <a href="/movieWatched/{{movie.id}}/"><button> + Assistido </button></a> -->
             </div>
 
           </div>
@@ -146,20 +148,17 @@
 
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUINDO </button>
-          <!-- <a href="/follow/{{element.user.id}}/">SEGUINDO </a> -->
-        </p>
+                  </p>
         {%else%}
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUIR</button>
-          <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> -->
-        </p>
+                  </p>
         
 {%endif%}
         {%else%}
         <p>{{element.user}} &nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button" onclick="userFollower('{{element.user.id}}')"> SEGUIR </button>
-          <!-- <a href="/follow/{{element.user.id}}/">SEGUIR </a> -->
-        </p>
+                  </p>
 
         {%endif%}
 
@@ -216,7 +215,7 @@
                 <form id="form" action="/evaluation/" method="POST">
                   {% csrf_token %}
                   <input type="hidden" id="idMovie" name="idMovie" value="{{movie.id}}"><br>
-                  <select class="form-control" name="cla">
+                  <select class="form-control" name="cla" id="cla">
                     <option value="1">RUIM</option>
                     <option value="2">MEDIANO</option>
                     <option value="3">BOM</option>
@@ -227,7 +226,9 @@
                   <label for="fcomment">Comentário.</label><br>
                   <input type="text" id="fcomment" name="fcomment"><br>
                   <input class="btn btn-primary" type="submit" id="add" value="AVALIAR">
-
+<!-- <button type="button" onclick="addEvaluation()">
+  avaliar teste ajax
+</button> -->
                 </form>
 
               </div>
@@ -247,10 +248,40 @@
   </section>
 
   <script type="text/javascript">
+      function addEvaluation() {
+        $idMovie=document.getElementById('idMovie').value
+                  $cla=document.getElementById('cla').value
+                  $fcomment=document.getElementById('fcomment').value
+              
+                  $.ajax({
+                          type: 'POST',
+                 url: '/evaluation/',
+                            // contentType: 'application/json',
+                           
+                           headers: {
+                   "X-CSRFToken": '{{ csrf_token }}',
+                 },
+                data:{
+              idMovie:$idMovie,
+              cla:$cla,
+              fcomment:$fcomment,     
+                },
+      
+                //  'dataType': 'json',
+                success: function (data) {
+                   location.reload();           
+                            
+                },
+                error: function (error) {
+                  
+                  console.log(`Error ${error}`);
+                }
+              });
+            }
+          
+
       function userFollower(id) {
-      // var result = confirm("Tem certeza?");
-      // if (result) {
-        
+              
         $.ajax({
                     type: 'POST',
            url: '/follow/' +id+'/',
@@ -265,8 +296,7 @@
           'dataType': 'json',
           success: function (data) {
             location.reload();           
-            //  document.getElementById(id).remove();
-          },
+                      },
           error: function (error) {
             
             console.log(`Error ${error}`);
@@ -275,9 +305,7 @@
       }
     
       function like(id) {
-      // var result = confirm("Tem certeza?");
-      // if (result) {
-        
+              
         $.ajax({
                     type: 'POST',
            url: '/like/' +id+'/',
@@ -292,8 +320,7 @@
           'dataType': 'json',
           success: function (data) {
             location.reload();           
-            //  document.getElementById(id).remove();
-          },
+                      },
           error: function (error) {
             
             console.log(`Error ${error}`);
@@ -302,9 +329,7 @@
       }
     
       function dislike(id) {
-      // var result = confirm("Tem certeza?");
-      // if (result) {
-        
+              
         $.ajax({
                     type: 'POST',
            url: '/dislike/' +id+'/',
@@ -319,8 +344,7 @@
           'dataType': 'json',
           success: function (data) {
             location.reload();           
-            //  document.getElementById(id).remove();
-          },
+                     },
           error: function (error) {
             
             console.log(`Error ${error}`);
@@ -328,7 +352,55 @@
         });
       }
     
-  </script>
+  function addMoviePlaylist(id) {
+              
+        $.ajax({
+                    type: 'POST',
+           url: '/addMoviePlaylist/' +id+'/',
+                      contentType: 'application/json',
+                     
+                     headers: {
+             "X-CSRFToken": '{{ csrf_token }}',
+           },
+          data:{ 
+          },
+
+          'dataType': 'json',
+          success: function (data) {
+            location.reload();           
+                      },
+          error: function (error) {
+            
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    
+      function addMovieWatched(id) {
+              
+        $.ajax({
+                    type: 'POST',
+           url: '/movieWatched/' +id+'/',
+                      contentType: 'application/json',
+                     
+                     headers: {
+             "X-CSRFToken": '{{ csrf_token }}',
+           },
+          data:{ 
+          },
+
+          'dataType': 'json',
+          success: function (data) {
+            location.reload();           
+                      },
+          error: function (error) {
+            
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    
+    </script>
   
   <!--Scripts do Bootstrap -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

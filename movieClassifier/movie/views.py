@@ -30,12 +30,13 @@ def addMovie(request):
         description = description,
     )
     newMovie.save()
-    return redirect('http://127.0.0.1:8000/')
-        
+    
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})   
+
 def deleteMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     movie.delete()
-    #return redirect('http://127.0.0.1:8000/')
+    
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
 
@@ -133,8 +134,8 @@ def addMoviePlaylist(request, pk):
         user = user,
     )
     newMoviePlaylist.save()
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
     
-    return redirect('http://127.0.0.1:8000/')
 
 def movieWatched(request, pk):
     movie = Movie.objects.get(id=pk)
@@ -146,9 +147,7 @@ def movieWatched(request, pk):
         user = user,
     )
     newMovieWatched.save()
-    
-    return redirect('http://127.0.0.1:8000/')
-
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
 def evaluation(request):
     userId = request.user.id
@@ -163,9 +162,11 @@ def evaluation(request):
         classification = classification,
         comment = comment,
     )
-    newEvaluation.save()
     
-    return redirect('http://127.0.0.1:8000/')
+    newEvaluation.save()
+    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+    
+
 #Função de like, fazer lógica para create quando verificado avaliação==None
 def like(request, pk):
     userId = request.user.id
@@ -185,8 +186,9 @@ def like(request, pk):
         )
         evaluation.likes.users.add(user)
          
-    #return redirect('http://127.0.0.1:8000/')
+    
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+
 #Função de dislike, fazer lógica para create quando verificado avaliação==None
 def dislike(request, pk):
     userId = request.user.id
