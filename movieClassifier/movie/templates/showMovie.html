@@ -256,7 +256,7 @@
                   $.ajax({
                           type: 'POST',
                  url: '/evaluation/',
-                            // contentType: 'application/json',
+                             contentType: 'application/json',
                            
                            headers: {
                    "X-CSRFToken": '{{ csrf_token }}',
@@ -267,10 +267,10 @@
               fcomment:$fcomment,     
                 },
       
-                //  'dataType': 'json',
+                  'dataType': 'json',
                 success: function (data) {
-                   location.reload();           
-                            
+                    // location.reload();           
+                    
                 },
                 error: function (error) {
                   

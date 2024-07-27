@@ -156,16 +156,20 @@ def evaluation(request):
     user = User.objects.get(id=userId)
     classification = request.POST['cla']
     comment = request.POST['fcomment']
-    newEvaluation = Evaluation(
-        movie = movie,
-        user = user,
-        classification = classification,
-        comment = comment,
-    )
+    evaluation = Evaluation.objects.filter(movie_id=movieId)
+    if evaluation.filter(user_id=userId):
+        return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
+    else:
+        newEvaluation = Evaluation(
+            movie = movie,
+            user = user,
+            classification = classification,
+            comment = comment,
+        )
     
-    newEvaluation.save()
-    return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
-    
+        newEvaluation.save()
+    #return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+        return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
 
 #Função de like, fazer lógica para create quando verificado avaliação==None
 def like(request, pk):
