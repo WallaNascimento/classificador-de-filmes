@@ -71,7 +71,7 @@ def updateMovie(request, pk):
 def getMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     list_genre_movie = GenreMovie.objects.filter(movie__id=pk)
-    genres = Genre.objects.all()
+    genres = Genre.objects.exclude(id__in=list_genre_movie)
     list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
     platforms = Platform.objects.all()
     evaluation = Evaluation.objects.filter(movie__id=pk)
@@ -94,7 +94,7 @@ def getMovie(request, pk):
 
 def addGenreMovie(request, pk):
     movie = Movie.objects.get(id=pk)
-    genreId = request.POST['genre']
+    genreId = request.POST['fgenre']
     genre = Genre.objects.get(id=genreId)
     
     newGenreMovie = GenreMovie (
@@ -168,7 +168,7 @@ def evaluation(request):
         )
     
         newEvaluation.save()
-    #return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+        #return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
         return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
 
 #Função de like, fazer lógica para create quando verificado avaliação==None
