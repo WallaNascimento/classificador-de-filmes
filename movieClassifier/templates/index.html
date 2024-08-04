@@ -99,7 +99,7 @@
 
   {%for movie in movie %}
   <div id="{{movie.id}}" class="card" style="width: 18rem;">
-    <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Imagem de capa do card">
+    <img class="card-img-top" src="../media/{{movie.image}}" alt="{{movie.name}}">
     <div class="card-body">
       <h2 class="card-title">{{movie.name}} </h2>
       <p class="card-text">Duração - {{movie.duration}} </p>
@@ -155,8 +155,9 @@
               <input type="text" id="fduration" name="fduration"><br>
               <label for="fdescription">Descrição:</label><br>
               <input type="text" id="fdescription" name="fdescription"><br>
+              <label for="fimage">Imagem:</label><br>
+              <input type="file" id="fimage" name="fimage"><br>
 
-              <!-- <input class="btn btn-primary" type="submit" id="add" value="ADICIONAR"> -->
               <button onclick="addMovie()">SALVAR </button>
             </form>
 
@@ -204,38 +205,34 @@
       }
     }
 
-
-    function addMovie(){
-$fname=document.getElementById("fname").value
-      $fduration=document.getElementById("fduration").value
-      $fdescription=document.getElementById("fdescription").value
-      
+    function addMovie() {
+            $('#form').on('submit', function(e) {
+        e.preventDefault(); // Evita o envio padrão do formulário 
+      var formData = new FormData(this);
       $.ajax({
-                          type: 'POST',
-                 url: '/addMovie/',
-                            // contentType: 'application/json',
-                           
-                           headers: {
-                   "X-CSRFToken": '{{ csrf_token }}',
-                 },
-                data:{
-                  fname:$fname,
-                  fduration:$fduration,
-                  fdescription:$fdescription, 
-                },
-      
-                //  'dataType': 'json',
-                success: function (data) {
-                   location.reload();           
-                            
-                },
-                error: function (error) {
-                  
-                  console.log(`Error ${error}`);
-                }
-              });
-            }
-    
+        type: 'POST',
+        url: '/addMovie/',
+
+        headers: {
+          "X-CSRFToken": '{{ csrf_token }}',
+        },
+
+data:formData,        
+contentType: false,
+        processData: false,
+        
+        success: function (data) {
+          location.reload();
+
+        },
+        error: function (error) {
+
+          console.log(`Error ${error}`);
+        }        
+      });
+      });
+    }
+     
       function updateMovie(id) {
                 $.ajax({
           'type': 'POST',

@@ -8,7 +8,7 @@ class Movie(models.Model):
     name = models.CharField(max_length=100)
     duration = models.IntegerField()
     description = models.CharField(max_length=500)
-    
+    image = models.ImageField(upload_to='movies/images/', blank=True)    
   # date = models.DateField
       
     def __str__(self):

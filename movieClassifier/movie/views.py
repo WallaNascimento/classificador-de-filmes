@@ -23,11 +23,12 @@ def addMovie(request):
     name = request.POST['fname']
     duration = request.POST['fduration']
     description = request.POST['fdescription']
-    
+    image = request.FILES.get('fimage')
     newMovie = Movie(
         name = name,
         duration = duration,
         description = description,
+        image = image,
     )
     newMovie.save()
     
@@ -71,7 +72,7 @@ def updateMovie(request, pk):
 def getMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     list_genre_movie = GenreMovie.objects.filter(movie__id=pk)
-    genres = Genre.objects.exclude(id__in=list_genre_movie)
+    genres = Genre.objects.all().exclude(id__in=list_genre_movie)
     list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
     platforms = Platform.objects.all()
     evaluation = Evaluation.objects.filter(movie__id=pk)
