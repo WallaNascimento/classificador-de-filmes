@@ -43,23 +43,19 @@ def deleteMovie(request, pk):
 
 def update(request, pk):
     movie = Movie.objects.get(id=pk)
-#     newMovie = {
-# "name": movie.name,
-#             "duration": movie.duration,
-#             "description": movie.description, 
-# }
-#     return JsonResponse(newMovie)
-
-    movie = Movie.objects.get(id=pk)
-        
-    return render(request, 'updateMovie.html',{"Movie":movie})
+    newMovie = {
+ "name": movie.name,
+             "duration": movie.duration,
+             "description": movie.description, 
+ }
+    return JsonResponse(newMovie)
 
 def updateMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     
-    name = request.POST['fname']
-    duration = request.POST['fduration']
-    description = request.POST['fdescription']
+    name = request.POST['name']
+    duration = request.POST['duration']
+    description = request.POST['description']
     
     movie.name = name
     movie.duration = duration
@@ -73,6 +69,7 @@ def getMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     list_genre_movie = GenreMovie.objects.filter(movie__id=pk)
     genres = Genre.objects.all().exclude(id__in=list_genre_movie)
+    
     list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
     platforms = Platform.objects.all()
     evaluation = Evaluation.objects.filter(movie__id=pk)
