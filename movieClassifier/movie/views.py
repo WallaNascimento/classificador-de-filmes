@@ -68,10 +68,12 @@ def updateMovie(request, pk):
 def getMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     list_genre_movie = GenreMovie.objects.filter(movie__id=pk)
-    genres = Genre.objects.all().exclude(id__in=list_genre_movie)
+    list_genres = Genre.objects.all()
+    genres = list_genres.exclude(id__in=list_genre_movie.values_list('genre__id'))
     
     list_streaming_movie = MovieStreaming.objects.filter(movie__id=pk)
-    platforms = Platform.objects.all()
+    list_platforms = Platform.objects.all()
+    platforms = list_platforms.exclude(id__in=list_streaming_movie.values_list('platform__id'))
     evaluation = Evaluation.objects.filter(movie__id=pk)
 
     like = Like.objects.all()
