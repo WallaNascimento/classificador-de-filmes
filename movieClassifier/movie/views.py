@@ -171,6 +171,34 @@ def evaluation(request):
         #return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
         return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
 
+
+#Funções para editar avaliação
+def getEvaluationInfo(request, pk):
+    evaluation = Evaluation.objects.get(id=pk)
+    newEvaluation = {
+           
+            "classification": evaluation.classification,
+             "comment": evaluation.comment, 
+ }
+    return JsonResponse(newEvaluation)
+    
+def updateEvaluation(request, pk):
+    userId = request.user.id
+    movieId = request.POST['idMovie']
+    movie = Movie.objects.get(id=movieId)
+    user = User.objects.get(id=userId)
+    classification = request.POST['fcla']
+    comment = request.POST['comment']
+    evaluation = Evaluation.objects.get(id=pk)
+    
+    evaluation.user = user
+    evaluation.movie = movie
+    evaluation.classification = classification
+    evaluation.comment = comment
+    
+    evaluation.save()
+    return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
+
 #Função de like, fazer lógica para create quando verificado avaliação==None
 def like(request, pk):
     userId = request.user.id

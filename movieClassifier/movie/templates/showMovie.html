@@ -165,7 +165,9 @@
 
         <p>Classificação: {{element.classification}}</p>
         <p>Comentário: {{element.comment}}</p>
-        
+        {%if request.user.id == element.user.id%}
+        <button type="button" onclick="updateEvaluation('{{element.id}}')"> EDITAR</button>
+        {%endif%} 
         <p>Publicado em: {{element.publication}}</p>
                
 
@@ -245,6 +247,54 @@
         <p> Faça login para avaliar.</p>
       </div>
       {%endif%}
+<!-- MODAL PARA UPDATE EVALUATION-->
+<div>
+  <!-- Botão para acionar modal -->
+   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemploUpdate">
+    EDITAR AVALIAR
+  </button>  -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalExemploUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ATUALIZAR AVALIAÇÃO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formUpdate" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="idMovie" name="idMovie" value="{{movie.id}}"><br>
+            <select class="form-control" name="fcla" id="fcla">
+              <option value="1">RUIM</option>
+              <option value="2">MEDIANO</option>
+              <option value="3">BOM</option>
+              <option value="4">MUITO BOM</option>
+              <option value="5">EXCELENTE</option>
+            </select>
+
+            <label for="comment">Comentário.</label><br>
+            <input type="text" id="comment" name="comment"><br>
+            <!-- <input class="btn btn-primary" type="submit" id="add" value="AVALIAR"> -->
+<button type="submit">
+  SALVAR
+</button>
+          </form>
+
+        </div>
+        <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar mudanças</button>
+      </div>  -->
+      </div>
+    </div>
+  </div>
+  
+
 
     </div>
   </section>
@@ -280,8 +330,34 @@
                 }
               });
             }
-          
 
+            function updateEvaluation(id) {
+                $.ajax({
+          'type': 'POST',
+          'url': '/getEvaluationInfo/' + id + '/',
+          'contentType': 'application/json',
+          headers: {
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          'data': {
+          },
+          'dataType': 'json',
+          success: function (data) {
+            idMovieOfMovie = data.idMovie;
+            fclaOfMovie = data.fcla;
+            commentOfMovie = data.comment;
+             $('#modalExemploUpdate').modal();
+            document.getElementById("idMovie").value = idMovieOfMovie
+            document.getElementById("fcla").value = fclaOfMovie
+            document.getElementById("comment").value = commentOfMovie
+            $('#formUpdate').attr('action', 'http://127.0.0.1:8000/updateEvaluation/' + id + '/');
+          },
+          error: function (error) {
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+  
       function userFollower(id) {
               
         $.ajax({
