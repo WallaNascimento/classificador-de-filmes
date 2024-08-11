@@ -79,7 +79,12 @@ def getMovie(request, pk):
     like = Like.objects.all()
         
     follow = Follow.objects.all()
-            
+    if request.user.is_authenticated:
+        watcheds = MovieWatched.objects.filter(movie=movie,user=request.user)
+        playlists = Playlist.objects.filter(movie=movie, user=request.user)
+    else:
+        watcheds=None
+        playlists = None
     context = {
         'genres': genres,
         'movie': movie,
@@ -89,6 +94,8 @@ def getMovie(request, pk):
         'evaluation': evaluation,
         'like':like,
         'follow':follow,
+        'watcheds':watcheds,
+        'playlists':playlists,
         }
     return render(request, 'showMovie.html', context)
 
@@ -128,12 +135,16 @@ def addMoviePlaylist(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
     user = User.objects.get(id=userId)
+    try: 
+        playlists = Playlist.objects.get(movie=movie, user=user)
+        playlists.delete()
+    except Playlist.DoesNotExist:
     
-    newMoviePlaylist = Playlist (
+        newMoviePlaylist = Playlist (
         movie = movie,
         user = user,
     )
-    newMoviePlaylist.save()
+        newMoviePlaylist.save()
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
     
 
@@ -141,12 +152,16 @@ def movieWatched(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
     user = User.objects.get(id=userId)
-    
-    newMovieWatched = MovieWatched (
+    try: 
+        watcheds = MovieWatched.objects.get(movie=movie, user=user)
+        watcheds.delete()
+    except MovieWatched.DoesNotExist:
+        
+        newMovieWatched = MovieWatched (
         movie = movie,
         user = user,
     )
-    newMovieWatched.save()
+        newMovieWatched.save()
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
 def evaluation(request):

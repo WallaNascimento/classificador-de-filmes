@@ -101,15 +101,41 @@
           {%endif%}
           <div class="container row">
             <div class="col-sm">
-              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')"> + Playlist </button>
+              {%if playlists%}
+              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off"> + Playlist </button>
+              {%else%}
+              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> Adicionar á playlist </button>
+              {%endif%}
               <!-- <a href="/addMoviePlaylist/{{movie.id}}/"><button>+ Playlist</button></a> -->
             </div>
             <div class="col-sm">
-              <button type="button" onclick="addMovieWatched('{{movie.id}}')"> + Assistido </button>
+                              {% if watcheds %}
+                <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+                  + Assistido </button>
+  {%else%}
+  <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+    Marcar como assistido </button>
+  {%endif%}
               <!-- <a href="/movieWatched/{{movie.id}}/"><button> + Assistido </button></a> -->
             </div>
 
           </div>
+          <!-- Não logado...-->
+          {%else%}
+          <div class="container row">
+<div class="col-sm">
+<button type="button" onclick="showMessage()" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+ + Playlist
+</button>
+</div>
+<div class="col-sm">
+ <button type="button" onclick="showMessage()" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+   Marcar como assistido
+ </button>
+</div>           
+<div id="message"> </div>
+</div>
+        
           {%endif%}
         </div>
 
@@ -300,6 +326,12 @@
   </section>
 
   <script type="text/javascript">
+      function showMessage(){
+        var msg = document.getElementById('message');
+      msg.textContent = 'Faça login!';
+      }
+    
+      
       function addEvaluation() {
         $idMovie=document.getElementById('idMovie').value
                   $cla=document.getElementById('cla').value
