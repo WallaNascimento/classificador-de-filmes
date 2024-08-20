@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 from user.models import User, Follow
+from django.contrib.auth.decorators import login_required
 
 #from django.contrib.auth.models import User
 
@@ -130,7 +131,7 @@ def search(request):
     search = Movie.objects.filter(name=name)
     
     return render(request, 'index.html', {'search':search})
-
+@login_required(login_url='login')
 def addMoviePlaylist(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
@@ -147,7 +148,7 @@ def addMoviePlaylist(request, pk):
         newMoviePlaylist.save()
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
     
-
+@login_required(login_url='login')
 def movieWatched(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
