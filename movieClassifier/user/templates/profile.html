@@ -96,6 +96,39 @@
     {%endfor%}
   </section>
 
+  <a href="/getMovieWatched_userFollowing"> FILMES SEGUIDORES...</a>
+
+  <a href="/getMyPlaylist">MINHA PLAYLIST </a>
+  
+  <a href="/getMyMovieWatched"> Meus filmes assistidos </a>
+  
+  <section>
+    {%for element in results %}
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Imagem de capa do card">
+      <div class="card-body">
+        <h2 class="card-title">{{element.movie.name}} </h2>
+        <p class="card-text">Duração - {{element.movie.duration}} </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{element.movie.id}}"> Visualizar </a> </li>
+        {% if user.is_superuser%}
+        <li class="list-group-item"><a href="/update/{{search.id}}/"><button>Atualizar</button></a> </li>
+        <li class="list-group-item"><a href="/deleteMovie/{{search.id}}/"><button>Deletar</button></a>
+        </li>
+        {%endif%}
+      </ul>
+      <div class="card-body">
+        <!-- <a href="#" class="card-link">Gostei</a><br>
+      <a href="#" class="card-link">Não gostei </a> -->
+      </div>
+    </div>
+    {%endfor%}
+  </section>
+
+  
+
+
   {%for movie in movie %}
   <div id="{{movie.id}}" class="card" style="width: 18rem;">
     <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Imagem de capa do card">

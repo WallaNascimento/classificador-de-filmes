@@ -9,7 +9,8 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from django.contrib.auth import authenticate, login as logining
-#from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
+from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -97,4 +98,23 @@ def follow(request, pk):
         return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
     else:
         return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
+    
+
+@login_required(login_url="login")
+def getMyPlaylist(request):
+    results = Playlist.objects.filter(user=request.user)
+    return render(request, 'profile.html', {'results':results})
+    
+@login_required(login_url="login")
+def getMyMovieWatched(request):
+    results = MovieWatched.objects.filter(user=request.user)
+    return render(request, 'profile.html', {'results':results})
+        
+    
+@login_required(login_url="login")
+def getMovieWatched_userFollowing(request):
+    userFollow = Follow.objects.get(user=request.user)
+    users_followed = userFollow.following.all() 
+    results = MovieWatched.objects.filter(user__in=users_followed) #.select_related('movies')
+    return render(request, 'profile.html', {'results':results})
     

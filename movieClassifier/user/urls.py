@@ -10,7 +10,8 @@ path('loginUser/', views.loginUser, name='loginUser'),
 path('logout/', views.logout, name='logout'),
 path('profile/', views.profile, name='profile'),
 path('follow/<str:pk>/', views.follow, name='follow'),
-#path('deleteMovie/<str:pk>/', views.deleteMovie, name='deleteMovie'),
-#path('update/<str:pk>/', views.update, name='update'),
-#path('updateMovie/<str:pk>/', views.updateMovie, name='updateMovie'),
+path('getMovieWatched_userFollowing/', views.getMovieWatched_userFollowing, name='getMovieWatched_userFollowing'),
+path('getMyPlaylist/', views.getMyPlaylist, name='getMyPlaylist'),
+path('getMyMovieWatched/', views.getMyMovieWatched, name='getMyMovieWatched'),
+    
     ]
