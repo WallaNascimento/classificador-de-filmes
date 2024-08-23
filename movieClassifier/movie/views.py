@@ -228,11 +228,19 @@ def like(request, pk):
             evaluation.likes.users.remove(user)
         else:
             evaluation.likes.users.add(user)
+            try:
+                evaluation.dislikes.users.remove(user)
+            except Evaluation.dislikes.RelatedObjectDoesNotExist:
+                pass
     except Evaluation.likes.RelatedObjectDoesNotExist:
         Like.objects.create(
             evaluation = evaluation
         )
         evaluation.likes.users.add(user)
+        try:
+            evaluation.dislikes.users.remove(user)
+        except Evaluation.dislikes.RelatedObjectDoesNotExist:
+            pass
          
     
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
@@ -249,11 +257,19 @@ def dislike(request, pk):
             evaluation.dislikes.users.remove(user)
         else:
             evaluation.dislikes.users.add(user)
+            try:       
+                evaluation.likes.users.remove(user)
+            except Evaluation.likes.RelatedObjectDoesNotExist:
+                pass
     except Evaluation.dislikes.RelatedObjectDoesNotExist:
         Dislike.objects.create(
             evaluation = evaluation
         )
         evaluation.dislikes.users.add(user)
+        try:       
+            evaluation.likes.users.remove(user)
+        except Evaluation.likes.RelatedObjectDoesNotExist:
+            pass
        
     
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
