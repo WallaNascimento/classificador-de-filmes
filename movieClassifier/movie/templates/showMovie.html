@@ -203,8 +203,8 @@
             <button type="button" onclick="like('{{element.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
                           <i class=" fas fa-thumbs-up pr-2">
                 {%if element.full_likes%}
-                Gostei + {{element.full_likes}} pessoa(s)
-                {%else%} Gostei + 0 pessoa(s)
+                <span class="sr-only">Marque como &quot;gostei&quot; com +</span> {{element.full_likes}} pessoa(s)
+                {%else%} <span class="sr-only">Marque como &quot;gostei&quot; com +</span> 0 pessoa(s)
                 {%endif%}
               </i>
                       </button>
@@ -213,8 +213,8 @@
             <button type="button" onclick="dislike('{{element.id}}')" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
                           <i class="fas fa-thumbs-down pr-2">
                 {%if element.full_dislikes%}
-                Não gostei + {{element.full_dislikes}} pessoa(s)
-                {%else%} Não gostei + 0 pessoa(s)
+                <span class="sr-only">Não gostei com +</span> {{element.full_dislikes}} pessoa(s)
+                {%else%} <span class="sr-only">Não gostei com +</span> 0 pessoa(s)
                 {%endif%}
               </i>
             </button>
