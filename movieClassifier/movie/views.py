@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 from user.models import User, Follow
-from django.contrib.auth.decorators import login_required
-
-#from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+def superuser_required(function):
+    return user_passes_test(lambda u: u.is_superuser)(function)
 
 # Create your views here.
 
@@ -19,7 +19,9 @@ def index(request):
         'genremovie':genremovie,
                }
     return render(request, 'index.html', context)
-    
+
+@superuser_required
+@login_required(login_url="login")
 def addMovie(request):
     name = request.POST['fname']
     duration = request.POST['fduration']
@@ -35,13 +37,16 @@ def addMovie(request):
     
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})   
 
+@superuser_required
+@login_required(login_url="login")
 def deleteMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     movie.delete()
     
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
-
+@superuser_required
+@login_required(login_url="login")
 def update(request, pk):
     movie = Movie.objects.get(id=pk)
     newMovie = {
@@ -100,6 +105,8 @@ def getMovie(request, pk):
         }
     return render(request, 'showMovie.html', context)
 
+@superuser_required
+@login_required(login_url="login")
 def addGenreMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     genreId = request.POST['fgenre']
@@ -112,7 +119,9 @@ def addGenreMovie(request, pk):
     newGenreMovie.save()
     
     return redirect('http://127.0.0.1:8000/')
-    
+
+@superuser_required
+@login_required(login_url="login")    
 def addMovieStreaming(request, pk):
     movie = Movie.objects.get(id=pk)
     platformId = request.POST['platform']
@@ -131,6 +140,7 @@ def search(request):
     search = Movie.objects.filter(name=name)
     
     return render(request, 'index.html', {'search':search})
+
 @login_required(login_url='login')
 def addMoviePlaylist(request, pk):
     movie = Movie.objects.get(id=pk)
@@ -165,6 +175,7 @@ def movieWatched(request, pk):
         newMovieWatched.save()
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
+@login_required(login_url="login")
 def evaluation(request):
     userId = request.user.id
     movieId = request.POST['idMovie']
@@ -189,6 +200,7 @@ def evaluation(request):
 
 
 #Funções para editar avaliação
+@login_required(login_url="login")
 def getEvaluationInfo(request, pk):
     evaluation = Evaluation.objects.get(id=pk)
     newEvaluation = {

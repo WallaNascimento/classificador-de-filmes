@@ -67,6 +67,7 @@ def logout(request):
     request.session.flush()
     return redirect('http://127.0.0.1:8000/')
 
+@login_required(login_url="login")
 def profile(request):
     userId = request.user.id
     user = User.objects.get(id=userId)
@@ -75,6 +76,7 @@ def profile(request):
     }
     return render(request, 'profile.html', context)
 
+@login_required(login_url="login")
 def follow(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
