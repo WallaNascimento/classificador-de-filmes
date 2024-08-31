@@ -11,6 +11,9 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+
+  {% load static %}
+  <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
 </head>
 
 <body>
@@ -104,7 +107,9 @@
     {%endfor%}
   </section>
 
+  
   {%for movie in movie %}
+  <section class="card-container">
   <div id="{{movie.id}}" class="card" style="width: 18rem;">
     <img class="card-img-top" src="../media/{{movie.image}}" alt="{{movie.name}}">
     <div class="card-body">
@@ -134,8 +139,7 @@
     <a href="#" class="card-link">Não gostei </a> -->
     </div>
   </div>
-
-
+  </section>
 
   {%endfor%}
 
@@ -229,96 +233,94 @@
   </div>
 
   
-  <!-- Scripts AJAX -->
-  <!-- Scripts AJAX -->
+<script>
+  
+function deleteMovie(id) {
+  var result = confirm("Tem certeza?");
+  if (result) {
 
-  <script type="text/javascript">
+    $.ajax({
+      type: 'POST',
+      url: '/deleteMovie/' + id + '/',
+      contentType: 'application/json',
 
+      headers: {
+        "X-CSRFToken": '{{ csrf_token }}',
+      },
+      data: {
+      },
 
-    function deleteMovie(id) {
-      var result = confirm("Tem certeza?");
-      if (result) {
+      'dataType': 'json',
+      success: function (data) {
+        document.getElementById(id).remove();
+      },
+      error: function (error) {
 
-        $.ajax({
-          type: 'POST',
-          url: '/deleteMovie/' + id + '/',
-          contentType: 'application/json',
-
-          headers: {
-            "X-CSRFToken": '{{ csrf_token }}',
-          },
-          data: {
-          },
-
-          'dataType': 'json',
-          success: function (data) {
-            document.getElementById(id).remove();
-          },
-          error: function (error) {
-
-            console.log(`Error ${error}`);
-          }
-        });
+        console.log(`Error ${error}`);
       }
-    }
+    });
+  }
+}
 
-    function addMovie() {
-            $('#form').on('submit', function(e) {
-        e.preventDefault(); // Evita o envio padrão do formulário 
-      var formData = new FormData(this);
-      $.ajax({
-        type: 'POST',
-        url: '/addMovie/',
+function addMovie() {
+        $('#form').on('submit', function(e) {
+    e.preventDefault(); // Evita o envio padrão do formulário 
+  var formData = new FormData(this);
+  $.ajax({
+    type: 'POST',
+    url: '/addMovie/',
 
-        headers: {
-          "X-CSRFToken": '{{ csrf_token }}',
-        },
+    headers: {
+      "X-CSRFToken": '{{ csrf_token }}',
+    },
 
 data:formData,        
 contentType: false,
-        processData: false,
-        
-        success: function (data) {
-          location.reload();
+    processData: false,
+    
+    success: function (data) {
+      location.reload();
 
-        },
-        error: function (error) {
+    },
+    error: function (error) {
 
-          console.log(`Error ${error}`);
-        }        
-      });
-      });
+      console.log(`Error ${error}`);
+    }        
+  });
+  });
+}
+ 
+function updateMovie(id) {
+  $.ajax({
+    'type': 'POST',
+    'url': '/update/' + id + '/',
+    'contentType': 'application/json',
+    headers: {
+      "X-CSRFToken": '{{ csrf_token }}',
+    },
+    'data': {
+    },
+    'dataType': 'json',
+    success: function (data) {
+      nameOfMovie = data.name;
+      durationOfMovie = data.duration;
+      descriptionOfMovie = data.description;
+       $('#modalExemploUpdate').modal();
+      document.getElementById("name").value = nameOfMovie
+      document.getElementById("duration").value = durationOfMovie
+      document.getElementById("description").value = descriptionOfMovie
+      $('#formUpdate').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
+    },
+    error: function (error) {
+      console.log(`Error ${error}`);
     }
-     
-    function updateMovie(id) {
-      $.ajax({
-        'type': 'POST',
-        'url': '/update/' + id + '/',
-        'contentType': 'application/json',
-        headers: {
-          "X-CSRFToken": '{{ csrf_token }}',
-        },
-        'data': {
-        },
-        'dataType': 'json',
-        success: function (data) {
-          nameOfMovie = data.name;
-          durationOfMovie = data.duration;
-          descriptionOfMovie = data.description;
-           $('#modalExemploUpdate').modal();
-          document.getElementById("name").value = nameOfMovie
-          document.getElementById("duration").value = durationOfMovie
-          document.getElementById("description").value = descriptionOfMovie
-          $('#formUpdate').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
-        },
-        error: function (error) {
-          console.log(`Error ${error}`);
-        }
-      });
-    }
+  });
+}
+
   
-        </script>
+</script>
 
+ <!-- <script src="{% static 'js/index.js' %}"></script>  -->
 
   <!--Scripts do Bootstrap -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
