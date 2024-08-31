@@ -1,3 +1,5 @@
+
+  
 function deleteMovie(id) {
   var result = confirm("Tem certeza?");
   if (result) {
@@ -26,33 +28,33 @@ function deleteMovie(id) {
 }
 
 function addMovie() {
-  $('#form').on('submit', function (e) {
+        $('#form').on('submit', function(e) {
     e.preventDefault(); // Evita o envio padrão do formulário 
-    var formData = new FormData(this);
-    $.ajax({
-      type: 'POST',
-      url: '/addMovie/',
+  var formData = new FormData(this);
+  $.ajax({
+    type: 'POST',
+    url: '/addMovie/',
 
-      headers: {
-        "X-CSRFToken": '{{ csrf_token }}',
-      },
+    headers: {
+      "X-CSRFToken": '{{ csrf_token }}',
+    },
 
-      data: formData,
-      contentType: false,
-      processData: false,
+data:formData,        
+contentType: false,
+    processData: false,
+    
+    success: function (data) {
+      location.reload();
 
-      success: function (data) {
-        location.reload();
+    },
+    error: function (error) {
 
-      },
-      error: function (error) {
-
-        console.log(`Error ${error}`);
-      }
-    });
+      console.log(`Error ${error}`);
+    }        
+  });
   });
 }
-
+ 
 function updateMovie(id) {
   $.ajax({
     'type': 'POST',
@@ -68,7 +70,7 @@ function updateMovie(id) {
       nameOfMovie = data.name;
       durationOfMovie = data.duration;
       descriptionOfMovie = data.description;
-      $('#modalExemploUpdate').modal();
+       $('#modalExemploUpdate').modal();
       document.getElementById("name").value = nameOfMovie
       document.getElementById("duration").value = durationOfMovie
       document.getElementById("description").value = descriptionOfMovie
