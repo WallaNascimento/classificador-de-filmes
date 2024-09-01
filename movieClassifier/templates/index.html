@@ -78,7 +78,7 @@
       <div class="card-body">
         <h2 class="card-title">{{search.name}} </h2>
         <p class="card-text">Duração - {{search.duration}} </p>
-        <p class="card-text">Classificação - {{search.classification}} </p>
+        <p class="card-text">Classificação - {{search.average_evaluation|default:0}} </p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{search.id}}"> Visualizar </a> </li>
@@ -111,7 +111,7 @@
     <div class="card-body">
       <h2 class="card-title">{{movie.name}} </h2>
       <p class="card-text">Duração - {{movie.duration}} </p>
-      <p class="card-text">Classificação - {{movie.average_evaluation}}  de 5</p>
+      <p class="card-text">Classificação - {{movie.average_evaluation|default:0}}  de 5</p>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{movie.id}}"> Visualizar </a> </li>
@@ -317,7 +317,7 @@ function updateMovie(id) {
   
 </script>
 
- <!-- <script src="{% static 'js/index.js' %}"></script>   -->
+  <!-- <script src="{% static 'js/index.js' %}"></script>     -->
  
   
  <!--Scripts do Bootstrap -->

@@ -85,7 +85,7 @@
                 <div class="movie-description">
                     <p><strong>Tempo de duração:</strong> {{movie.duration}} minutos.</p>
                     <p><strong>Descrição:</strong> {{movie.description}}</p>
-                    <p><strong>Nota:</strong> {{movie.average_evaluation}} de 5.</p>
+                    <p><strong>Nota:</strong> {{movie.average_evaluation|default:0}} de 5.</p>
                 </div>
                 
                 <h2 class="section-header">Gênero</h2>
