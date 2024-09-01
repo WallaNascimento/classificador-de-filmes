@@ -99,25 +99,25 @@
   <a href="/getMyMovieWatched"> Meus filmes assistidos </a>
   <br>
   
-  {%for movie in results %}
+  {%for element in results %}
   <section class="card-container">
-  <div id="{{movie.id}}" class="card" style="width: 18rem;">
-    <img class="card-img-top" src="../../media/{{movie.image}}" alt="{{movie.name}}"> 
+  <div id="{{element.movie.id}}" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="../../media/{{element.movie.image}}" alt="{{element.movie.name}}"> 
     <div class="card-body">
-      <h2 class="card-title">{{movie.name}} </h2>
-      <p class="card-text">Duração - {{movie.duration}} </p>
-      <p class="card-text">Classificação - {{movie.average_evaluation|default:0}}  de 5</p>
+      <h2 class="card-title">{{element.movie.name}} </h2>
+      <p class="card-text">Duração - {{element.movie.duration}} </p>
+      <p class="card-text">Classificação - {{element.movie.average_evaluation|default:0}}  de 5</p>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{movie.id}}"> Visualizar </a> </li>
+      <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{element.movie.id}}"> Visualizar </a> </li>
       {%if user.is_superuser %}
       <li class="list-group-item">
-        <button type="button" onclick="updateMovie('{{movie.id}}')">
+        <button type="button" onclick="updateMovie('{{element.movie.id}}')">
           ATUALIZAR
         </button>   
             </li>
       <li class="list-group-item">
-        <button type="button" onclick="deleteMovie('{{movie.id}}')">
+        <button type="button" onclick="deleteMovie('{{element.movie.id}}')">
           DELETAR
         </button>
       </li>
@@ -134,7 +134,118 @@
   </section>
 
   {%endfor%}
+
   
+
+  <div>
+    <!-- Botão para acionar modal -->
+    {%if user.is_superuser%}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+      ADICIONAR FILME
+    </button>
+    {%endif%}
+    <!-- Modal -->
+    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">CADASTRO DE NOVO FILME</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form" method="POST">
+              {% csrf_token %}
+              <label for="fname">Nome:</label><br>
+              <input type="text" id="fname" name="fname"><br>
+              <label for="fduration">Duração:</label><br>
+              <input type="text" id="fduration" name="fduration"><br>
+              <label for="fdescription">Descrição:</label><br>
+              <input type="text" id="fdescription" name="fdescription"><br>
+
+              <!-- <input class="btn btn-primary" type="submit" id="add" value="ADICIONAR"> -->
+              <button onclick="addMovie()">ADD </button>
+            </form>
+
+          </div>
+          <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary">Salvar mudanças</button>
+        </div>  -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Scripts AJAX -->
+  <!-- Scripts AJAX -->
+
+  <script>
+
+    function deleteMovie(id) {
+      var result = confirm("Tem certeza?");
+      if (result) {
+        $.ajax({
+          'type': 'POST',
+           'url': '/deleteMovie/' + id + '/',
+                     'contentType': 'application/json',
+          headers: {
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          'data': {
+          },
+          'dataType': 'json',
+          success: function (data) {
+            document.getElementById(id).remove();
+          },
+          error: function (error) {
+            console.log(`Error ${error}`);
+          }
+        });
+      }
+    }
+
+    function addMovie() {
+      document.getElementById("fname").value
+      document.getElementById("fduration").value
+      document.getElementById("fdescription").value
+      $('#form').attr('action', 'http://127.0.0.1:8000/addMovie/');
+    }
+
+    function updateMovie(id) {
+      $.ajax({
+        'type': 'POST',
+        'url': '/update/' + id + '/',
+        'contentType': 'application/json',
+        headers: {
+          "X-CSRFToken": '{{ csrf_token }}',
+        },
+        'data': {
+        },
+        'dataType': 'json',
+        success: function (data) {
+          nameOfMovie = data.name;
+          durationOfMovie = data.duration;
+          descriptionOfMovie = data.description;
+          // $('#modalExemplo').modal();
+          document.getElementById("fname").value = nameOfMovie
+          document.getElementById("fduration").value = durationOfMovie
+          document.getElementById("fdescription").value = descriptionOfMovie
+          $('#form').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
+        },
+        error: function (error) {
+          console.log(`Error ${error}`);
+        }
+      });
+    }
+  </script>
+
+
+
   
 
   <!--Scripts do Bootstrap -->

@@ -19,4 +19,4 @@ path('like/<str:pk>/', views.like, name='like'),
 path('dislike/<str:pk>/', views.dislike, name='dislike'),
     path('getEvaluationInfo/<str:pk>/', views.getEvaluationInfo, name='getEvaluationInfo'),
     path('updateEvaluation/<str:pk>/', views.updateEvaluation, name='updateEvaluation'),
-    ]
+        ]
