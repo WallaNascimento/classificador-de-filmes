@@ -13,10 +13,12 @@ def index(request):
     movie = Movie.objects.all()
     genre = Genre.objects.all()
     genremovie = GenreMovie.objects.all()
-    
+
+
     context = {'movie':movie, 
         'genre':genre,
         'genremovie':genremovie,
+        
                }
     return render(request, 'index.html', context)
 
