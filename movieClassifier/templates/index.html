@@ -84,12 +84,12 @@
         <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{search.id}}"> Visualizar </a> </li>
         {% if user.is_superuser%}
         <li class="list-group-item">
-          <button type="button" onclick="updateMovie('{{search.id}}')">
+          <button type="button" class="btn btn-primary" onclick="updateMovie('{{search.id}}')">
             ATUALIZAR
           </button>   
               </li>
         <li class="list-group-item">
-          <button type="button" onclick="deleteMovie('{{search.id}}')">
+          <button type="button" class="btn btn-primary" onclick="deleteMovie('{{search.id}}')">
             DELETAR
           </button>   
               </li>
@@ -120,12 +120,12 @@
       <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{movie.id}}"> Visualizar </a> </li>
       {%if user.is_superuser %}
       <li class="list-group-item">
-        <button type="button" onclick="updateMovie('{{movie.id}}')">
+        <button type="button" class="btn btn-primary" onclick="updateMovie('{{movie.id}}')">
           ATUALIZAR
         </button>   
             </li>
       <li class="list-group-item">
-        <button type="button" onclick="deleteMovie('{{movie.id}}')">
+        <button type="button" class="btn btn-primary" onclick="deleteMovie('{{movie.id}}')">
           DELETAR
         </button>
       </li>
@@ -164,16 +164,23 @@
           <div class="modal-body">
             <form id="form" method="POST" onsubmit="validateForm(event, 'form')">
               {% csrf_token %}
+              <div class="form-group">
               <label for="fname">Nome:</label><br>
-              <input type="text" id="fname" name="fname"><br>
+              <input type="text" class="form-control" id="fname" name="fname"><br>
+              </div>
+              <div class="form-group">
               <label for="fduration">Duração:</label><br>
-              <input type="text" id="fduration" name="fduration"><br>
+              <input type="text" class="form-control" id="fduration" name="fduration"><br>
+              </div>
+              <div class="form-group">
               <label for="fdescription">Descrição:</label><br>
-              <input type="text" id="fdescription" name="fdescription"><br>
+              <input type="text" class="form-control" id="fdescription" name="fdescription"><br>
+              </div>
+              <div class="form-group">
               <label for="fimage">Imagem:</label><br>
-              <input type="file" id="fimage" name="fimage"><br>
-
-              <button onclick="addMovie()">SALVAR </button>
+              <input type="file" class="form-control-file" id="fimage" name="fimage"><br>
+              </div>
+              <button class="btn btn-primary" onclick="addMovie()">CADASTRAR </button>
             </form>
 
           </div>
@@ -208,17 +215,24 @@
           <div class="modal-body">
             <form id="formUpdate" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
+              <div class="form-group">
               <label for="name">Nome:</label><br>
-              <input type="text" id="name" name="name" ><br>
+              <input type="text" class="form-control" id="name" name="name" ><br>
+              </div>
+              <div class="form-group">
               <label for="duration">Duração:</label><br>
-              <input type="text" id="duration" name="duration"><br>
-              <label for="description">Descrição:</label><br>
-              <input type="text" id="description" name="description"><br>
+              <input type="text" class="form-control" id="duration" name="duration"><br>
+              </div>
+              <div class="form-group">
+                              <label for="description">Descrição:</label><br>
+              <input type="text" class="form-control" id="description" name="description"><br>
+              </div>
+              <div class="form-group">
               <label for="image">Imagem:</label><br>
-              <input type="file" id="image" name="image"><br>
-              
-               <button type="submit">SALVAR </button> 
-              
+              <input type="file" class="form-control-file" id="image" name="image"><br>
+              </div>
+              <button class="btn btn-primary" type="submit">SALVAR</button>
+                          
             </form>
 
           </div>

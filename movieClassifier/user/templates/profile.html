@@ -66,6 +66,17 @@
   </section>
   
   <h1 class="text-center mt-5">PERFIL E CONFIGURAÇÕES </h1>
+   
+
+  <div class="sidebar">
+    <h4 class="text-center">VER FILMES</h4>
+    <div class="list-group">
+        <a href="/getMyMovieWatched" class="list-group-item list-group-item-action"> FILMES ASSISTIDOS </a>
+        <a href="/getMyPlaylist" class="list-group-item list-group-item-action"> MINHA PLAYLIST </a>
+        <a href="/getMovieWatched_userFollowing" class="list-group-item list-group-item-action"> FILMES ASSISTIDOS - SEGUINDO </a>
+            </div>
+</div>
+
 
   <section>
     {%for search in search%}
@@ -92,13 +103,6 @@
     {%endfor%}
   </section>
 
-  <a href="/getMovieWatched_userFollowing"> FILMES SEGUIDORES...</a>
-
-  <a href="/getMyPlaylist">MINHA PLAYLIST </a>
-  
-  <a href="/getMyMovieWatched"> Meus filmes assistidos </a>
-  <br>
-  
   {%for element in results %}
   <section class="card-container">
   <div id="{{element.movie.id}}" class="card" style="width: 18rem;">
