@@ -115,8 +115,12 @@ def getMyMovieWatched(request):
     
 @login_required(login_url="login")
 def getMovieWatched_userFollowing(request):
-    userFollow = Follow.objects.get(user=request.user)
-    users_followed = userFollow.following.all() 
-    results = MovieWatched.objects.filter(user__in=users_followed) #.select_related('movies')
+    try:
+        userFollow = Follow.objects.get(user=request.user)
+        users_followed = userFollow.following.all() 
+    
+        results = MovieWatched.objects.filter(user__in=users_followed) #.select_related('movies')
+    except Follow.DoesNotExist:
+        return render(request, 'profile.html')
     return render(request, 'profile.html', {'results':results})
     

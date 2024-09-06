@@ -162,7 +162,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form id="form" method="POST">
+            <form id="form" method="POST" onsubmit="validateForm(event, 'form')">
               {% csrf_token %}
               <label for="fname">Nome:</label><br>
               <input type="text" id="fname" name="fname"><br>
@@ -234,7 +234,24 @@
 
   
 <script>
-  
+  function validateForm(event, formId) {
+            // Obtém o formulário pelo ID
+            const form = document.getElementById(formId);
+            
+            // Obtém todos os campos do formulário
+            const campos = form.querySelectorAll('input, textarea');
+            
+            // Verifica se algum campo está vazio
+            for (let campo of campos) {
+                if (campo.value.trim() === '') {
+                    alert('Por favor, preencha todos os campos.');
+                    event.preventDefault(); // Impede o envio do formulário
+                    return;
+                }
+            }
+        }
+
+
 function deleteMovie(id) {
   var result = confirm("Tem certeza?");
   if (result) {

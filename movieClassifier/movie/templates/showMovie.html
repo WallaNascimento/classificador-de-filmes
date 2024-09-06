@@ -174,7 +174,7 @@
           <div class="comment-header">
             <span>{{ element.user }}</span>
             {% if user.is_authenticated %}
-              {% if user in element.user.followers.all %}
+              {% if user.users in element.user.followers.filter%}
                 <button type="button" class="btn btn-secondary" onclick="userFollower('{{ element.user.id }}')">SEGUINDO</button>
               {% else %}
                 <button type="button" class="btn btn-primary" onclick="userFollower('{{ element.user.id }}')">SEGUIR</button>
@@ -231,7 +231,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form id="form" action="/evaluation/" method="POST">
+                  <form id="form" action="/evaluation/" method="POST" onsubmit="validateForm(event, 'form')">
                     {% csrf_token %}
                     <input type="hidden" id="idMovie" name="idMovie" value="{{ movie.id }}">
                     <div class="form-group">
@@ -270,7 +270,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form id="formUpdate" method="POST">
+              <form id="formUpdate" method="POST" onsubmit="validateForm(event, 'formUpdate')">
                 {% csrf_token %}
                 <input type="hidden" id="idMovie" name="idMovie" value="{{ movie.id }}">
                 <div class="form-group">
@@ -297,6 +297,23 @@
   </section>
 
   <script type="text/javascript">
+                      function validateForm(event, formId) {
+            // Obtém o formulário pelo ID
+            const form = document.getElementById(formId);
+            
+            // Obtém todos os campos do formulário
+            const campos = form.querySelectorAll('input, textarea');
+            
+            // Verifica se algum campo está vazio
+            for (let campo of campos) {
+                if (campo.value.trim() === '') {
+                    alert('Por favor, preencha todos os campos.');
+                    event.preventDefault(); // Impede o envio do formulário
+                    return;
+                }
+            }
+        }
+
       function showMessage(){
                   document.getElementById('message').innerHTML = '<div class="alert alert-warning" role="alert">Você precisa estar logado para adicionar à playlist ou marcar como assistido.</div>';   
     }
