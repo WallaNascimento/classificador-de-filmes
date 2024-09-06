@@ -207,7 +207,7 @@ def getEvaluationInfo(request, pk):
     evaluation = Evaluation.objects.get(id=pk)
     newEvaluation = {
            
-            "classification": evaluation.classification,
+            "fcla": evaluation.classification,
              "comment": evaluation.comment, 
  }
     return JsonResponse(newEvaluation)
