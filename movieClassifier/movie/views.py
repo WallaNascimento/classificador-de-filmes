@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 from user.models import User, Follow
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.csrf import csrf_exempt
 def superuser_required(function):
     return user_passes_test(lambda u: u.is_superuser)(function)
 
@@ -24,6 +25,7 @@ def index(request):
 
 @superuser_required
 @login_required(login_url="login")
+@csrf_exempt
 def addMovie(request):
     name = request.POST['fname']
     duration = request.POST['fduration']
@@ -41,6 +43,7 @@ def addMovie(request):
 
 @superuser_required
 @login_required(login_url="login")
+@csrf_exempt
 def deleteMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     movie.delete()
@@ -49,6 +52,7 @@ def deleteMovie(request, pk):
 
 @superuser_required
 @login_required(login_url="login")
+@csrf_exempt
 def update(request, pk):
     movie = Movie.objects.get(id=pk)
     newMovie = {
@@ -58,6 +62,7 @@ def update(request, pk):
  }
     return JsonResponse(newMovie)
 
+@csrf_exempt
 def updateMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     
@@ -144,6 +149,7 @@ def search(request):
     return render(request, 'index.html', {'search':search})
 
 @login_required(login_url='login')
+@csrf_exempt
 def addMoviePlaylist(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
@@ -161,6 +167,7 @@ def addMoviePlaylist(request, pk):
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
     
 @login_required(login_url='login')
+@csrf_exempt
 def movieWatched(request, pk):
     movie = Movie.objects.get(id=pk)
     userId = request.user.id
@@ -178,6 +185,7 @@ def movieWatched(request, pk):
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
 @login_required(login_url="login")
+@csrf_exempt
 def evaluation(request):
     userId = request.user.id
     movieId = request.POST['idMovie']
@@ -203,6 +211,7 @@ def evaluation(request):
 
 #Funções para editar avaliação
 @login_required(login_url="login")
+@csrf_exempt
 def getEvaluationInfo(request, pk):
     evaluation = Evaluation.objects.get(id=pk)
     newEvaluation = {
@@ -211,7 +220,8 @@ def getEvaluationInfo(request, pk):
              "comment": evaluation.comment, 
  }
     return JsonResponse(newEvaluation)
-    
+
+@csrf_exempt
 def updateEvaluation(request, pk):
     userId = request.user.id
     movieId = request.POST['idMovie']
@@ -230,6 +240,8 @@ def updateEvaluation(request, pk):
     return redirect('http://127.0.0.1:8000/getMovie/'+movieId+'/')
 
 #Função de like, fazer lógica para create quando verificado avaliação==None
+@login_required(login_url="login")
+@csrf_exempt
 def like(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)
@@ -260,6 +272,8 @@ def like(request, pk):
     return JsonResponse(status=200, data={'status':'false','message':"Tudo certo"})
 
 #Função de dislike, fazer lógica para create quando verificado avaliação==None
+@login_required(login_url="login")
+@csrf_exempt
 def dislike(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)

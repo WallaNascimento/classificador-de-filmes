@@ -188,69 +188,7 @@
   <!-- Scripts AJAX -->
   <!-- Scripts AJAX -->
 
-  <script>
-
-    function deleteMovie(id) {
-      var result = confirm("Tem certeza?");
-      if (result) {
-        $.ajax({
-          'type': 'POST',
-           'url': '/deleteMovie/' + id + '/',
-                     'contentType': 'application/json',
-          headers: {
-            "X-CSRFToken": '{{ csrf_token }}',
-          },
-          'data': {
-          },
-          'dataType': 'json',
-          success: function (data) {
-            document.getElementById(id).remove();
-          },
-          error: function (error) {
-            console.log(`Error ${error}`);
-          }
-        });
-      }
-    }
-
-    function addMovie() {
-      document.getElementById("fname").value
-      document.getElementById("fduration").value
-      document.getElementById("fdescription").value
-      $('#form').attr('action', 'http://127.0.0.1:8000/addMovie/');
-    }
-
-    function updateMovie(id) {
-      $.ajax({
-        'type': 'POST',
-        'url': '/update/' + id + '/',
-        'contentType': 'application/json',
-        headers: {
-          "X-CSRFToken": '{{ csrf_token }}',
-        },
-        'data': {
-        },
-        'dataType': 'json',
-        success: function (data) {
-          nameOfMovie = data.name;
-          durationOfMovie = data.duration;
-          descriptionOfMovie = data.description;
-          // $('#modalExemplo').modal();
-          document.getElementById("fname").value = nameOfMovie
-          document.getElementById("fduration").value = durationOfMovie
-          document.getElementById("fdescription").value = descriptionOfMovie
-          $('#form').attr('action', 'http://127.0.0.1:8000/updateMovie/' + id + '/');
-        },
-        error: function (error) {
-          console.log(`Error ${error}`);
-        }
-      });
-    }
-  </script>
-
-
-
-  
+  <script src="{% static 'js/index.js' %}"></script>
 
   <!--Scripts do Bootstrap -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

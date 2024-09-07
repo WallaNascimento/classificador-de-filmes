@@ -11,7 +11,7 @@ User = get_user_model()
 from django.contrib.auth import authenticate, login as logining
 from movie.models import Movie, Genre, GenreMovie, Platform, MovieStreaming, Playlist, Evaluation, MovieWatched, Like, Dislike
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def register(request):
@@ -77,6 +77,7 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 @login_required(login_url="login")
+@csrf_exempt
 def follow(request, pk):
     userId = request.user.id
     user = User.objects.get(id=userId)

@@ -1,4 +1,3 @@
-
   
 function deleteMovie(id) {
   var result = confirm("Tem certeza?");
