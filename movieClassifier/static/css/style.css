@@ -20,6 +20,26 @@ body {
 .mt-5 {
     margin-top: 2rem;
 }
+/* Estilo do carrossel */
+.banner-destaque {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+}
+.banner-destaque img {
+    width: 100%;
+    height: auto;
+}
+.banner-destaque .caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
 
 /* Estilo do contêiner dos cards */
 .card-container {
@@ -135,3 +155,44 @@ body {
         width: calc(100% - 1rem); /* Um card por linha em telas pequenas */
             }
 }
+
+/*
+ input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; 
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #4a90e2;
+  outline: none; 
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+select:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+} */

@@ -102,9 +102,41 @@
     </div>
     {%endfor%}
   </section>
+<!-- 
+<section>
 
+<div class="container mt-5">
+  <div id="movieCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+          {% for movie in movie %}
+              <li data-target="#movieCarousel" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+          {% endfor %}
+      </ol>
+      <div class="carousel-inner">
+          {% for movie in movie %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <a href="http://127.0.0.1:8000/getMovie/{{movie.id}}" class="d-block w-100">
+                      <img src="../media/{{movie.image}}" alt="{{ movie.name }}" class="d-block w-100">
+                      <div class="carousel-caption d-none d-md-block">
+                          <h5>{{ movie.name }}</h5>
+                      </div>
+                  </a>
+              </div>
+          {% endfor %}
+      </div>
+      <a class="carousel-control-prev" href="#movieCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Anterior</span>
+      </a>
+      <a class="carousel-control-next" href="#movieCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Próximo</span>
+      </a>
+  </div>
+</div>
 
-  
+</section>
+   -->
   
 
   {%for movie in movie %}
