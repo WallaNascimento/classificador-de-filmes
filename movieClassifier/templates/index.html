@@ -104,7 +104,7 @@
     </div>
     {%endfor%}
   </section>
-<!-- 
+ 
 <section>
 
 <div class="container mt-5">
@@ -138,7 +138,7 @@
 </div>
 
 </section>
-   -->
+   
   
 
   {%for movie in movie %}
@@ -148,7 +148,7 @@
     <div class="card-body">
       <h2 class="card-title">{{movie.name}} </h2>
       <p class="card-text">Duração - {{movie.duration}} </p>
-      <p class="card-text">Classificação - {{movie.average_evaluation|default:0}}  de 5 <i class="fas fa-star"></i></p>
+      <p class="card-text">Classificação - {{movie.average_evaluation|default:0}}  de 5 <i class="fas fa-star"></i> ({{movie.full_evaluation}} avaliações)</p>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><a href="http://127.0.0.1:8000/getMovie/{{movie.id}}"> Visualizar </a> </li>

@@ -14,7 +14,10 @@ class Movie(models.Model):
   # date = models.DateField
     def average_evaluation(self):
         return self.evaluations.aggregate(Avg('classification'))['classification__avg']    
-          
+
+    def full_evaluation(self):
+        return self.evaluations.count()          
+    
     def __str__(self):
         return self.name
     
@@ -33,7 +36,7 @@ class GenreMovie(models.Model):
     
 class Platform(models.Model):
     name = models.CharField(max_length=100)
-
+    url = models.CharField(max_length=200)
     def __str__(self):
         return self.name
     

@@ -85,7 +85,7 @@
                 <div class="movie-description">
                     <p><strong>Tempo de duração:</strong> {{movie.duration}} minutos.</p>
                     <p><strong>Descrição:</strong> {{movie.description}}</p>
-                    <p><strong>Nota:</strong> {{movie.average_evaluation|default:0}} de 5.</p>
+                    <p><strong>Nota:</strong> {{movie.average_evaluation|default:0}} de 5 ({{movie.full_evaluation}} avaliações)</p>
                 </div>
                 
                 <h2 class="section-header">Gênero</h2>
@@ -139,7 +139,7 @@
                 
                 <h2 class="section-header">Disponível em</h2>
                 {% for element in list_streaming_movie %}
-                    <span class="badge badge-info">{{element.platform}}</span>
+                    <a href="{{element.platform.url}}/{{movie.name}}"> <span class="badge badge-info">{{element.platform}}</span> </a>
                 {% endfor %}
 
                 {% if user.is_superuser %}
