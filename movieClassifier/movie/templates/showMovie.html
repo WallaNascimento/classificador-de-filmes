@@ -9,9 +9,9 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  
+
   {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style-movie.css' %}">    
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style-movie.css' %}">
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -24,13 +24,13 @@
       <div class="container">
         <!-- Navbar Brand (se necessário) -->
         <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-  
+
         <!-- Toggler Button for Mobile View -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-  
+
         <!-- Navbar Links and Form -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
@@ -57,11 +57,12 @@
             </li>
             {% endif %}
           </ul>
-  
+
           <!-- Search Form -->
           <form class="form-inline my-2 my-lg-0 ml-auto" action="/search/" method="post">
             {% csrf_token %}
-            <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar"
+              name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
           </form>
         </div>
@@ -70,97 +71,104 @@
   </section>
 
   <h1 class="text-center mt-5"> {{ movie }}</h1>
- 
+
   <!-- FILME-->
   <section>
     <div class="container">
-        <div class="row">
-            <!-- Imagem do Filme -->
-            <div class="col-md-4">
-                <img src="../../media/{{movie.image}}" class="movie-image" alt="{{movie.name}}">
-            </div>
-
-            <!-- Detalhes do Filme -->
-            <div class="col-md-8">
-                <div class="movie-description">
-                    <p><strong>Tempo de duração:</strong> {{movie.duration}} minutos.</p>
-                    <p><strong>Descrição:</strong> {{movie.description}}</p>
-                    <p><strong>Nota:</strong> {{movie.average_evaluation|default:0}} de 5 ({{movie.full_evaluation}} avaliações)</p>
-                </div>
-                
-                <h2 class="section-header">Gênero</h2>
-                {% for element in list_genre_movie %}
-                    <span class="badge badge-secondary">{{element.genre}}</span>
-                {% endfor %}
-
-                {% if user.is_authenticated %}
-                    {% if user.is_superuser %}
-                        <form id="form" action="/addGenreMovie/{{movie.id}}/" method="POST" class="mt-3">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="genero">Adicionar Gênero</label>
-                                <select name="fgenre" id="genero" class="form-control">
-                                    {% for genre in genres %}
-                                        <option value="{{genre.id}}">{{genre}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <input class="btn btn-primary btn-custom" type="submit" value="Adicionar">
-                        </form>
-                    {% endif %}
-
-                    <div class="row mt-4">
-                        <div class="col-sm">
-                            {% if playlists %}
-                                <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary btn-custom" aria-pressed="true">+ Playlist</button>
-                            {% else %}
-                                <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary btn-custom" aria-pressed="false">Adicionar à Playlist</button>
-                            {% endif %}
-                        </div>
-                        <div class="col-sm">
-                            {% if watcheds %}
-                                <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary btn-custom" aria-pressed="true">+ Assistido</button>
-                            {% else %}
-                                <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary btn-custom" aria-pressed="false">Marcar como Assistido</button>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="row mt-4">
-                        <div class="col-sm">
-                            <button type="button" onclick="showMessage()" class="btn btn-primary btn-custom">+ Playlist</button>
-                        </div>
-                        <div class="col-sm">
-                            <button type="button" onclick="showMessage()" class="btn btn-primary btn-custom">Marcar como Assistido</button>
-                        </div>
-                        <div id="message" class="col-12"></div>
-                    </div>
-                {% endif %}
-                
-                <h2 class="section-header">Disponível em</h2>
-                {% for element in list_streaming_movie %}
-                    <a href="{{element.platform.url}}/{{movie.name}}"> <span class="badge badge-info">{{element.platform}}</span> </a>
-                {% endfor %}
-
-                {% if user.is_superuser %}
-                    <form id="form" action="/addMovieStreaming/{{movie.id}}/" method="POST" class="mt-3">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="platform">Adicionar Plataforma</label>
-                            <select name="platform" id="platform" class="form-control">
-                                {% for platform in platforms %}
-                                    <option value="{{platform.id}}">{{platform}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <input class="btn btn-primary btn-custom" type="submit" value="Adicionar">
-                    </form>
-                {% endif %}
-            </div>
+      <div class="row">
+        <!-- Imagem do Filme -->
+        <div class="col-md-4">
+          <img src="../../media/{{movie.image}}" class="movie-image" alt="{{movie.name}}">
         </div>
+
+        <!-- Detalhes do Filme -->
+        <div class="col-md-8">
+          <div class="movie-description">
+            <p><strong>Tempo de duração:</strong> {{movie.duration}} minutos.</p>
+            <p><strong>Descrição:</strong> {{movie.description}}</p>
+            <p><strong>Classificação:</strong> {{movie.average_evaluation|default:0}} de 5<i
+                class="fas fa-star"></i>({{movie.full_evaluation}} avaliações)</p>
+          </div>
+
+          <h2 class="section-header">Gênero</h2>
+          {% for element in list_genre_movie %}
+          <span class="badge badge-secondary">{{element.genre}}</span>
+          {% endfor %}
+
+          {% if user.is_authenticated %}
+          {% if user.is_superuser %}
+          <form id="form" action="/addGenreMovie/{{movie.id}}/" method="POST" class="mt-3">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="genero">Adicionar Gênero</label>
+              <select name="fgenre" id="genero" class="form-control">
+                {% for genre in genres %}
+                <option value="{{genre.id}}">{{genre}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input class="btn btn-primary btn-custom" type="submit" value="Adicionar">
+          </form>
+          {% endif %}
+
+          <div class="row mt-4">
+            <div class="col-sm">
+              {% if playlists %}
+              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary btn-custom"
+                aria-pressed="true">+ Playlist</button>
+              {% else %}
+              <button type="button" onclick="addMoviePlaylist('{{movie.id}}')" class="btn btn-primary btn-custom"
+                aria-pressed="false">Adicionar à Playlist</button>
+              {% endif %}
+            </div>
+            <div class="col-sm">
+              {% if watcheds %}
+              <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary btn-custom"
+                aria-pressed="true">+ Assistido</button>
+              {% else %}
+              <button type="button" onclick="addMovieWatched('{{movie.id}}')" class="btn btn-primary btn-custom"
+                aria-pressed="false">Marcar como Assistido</button>
+              {% endif %}
+            </div>
+          </div>
+          {% else %}
+          <div class="row mt-4">
+            <div class="col-sm">
+              <button type="button" onclick="showMessage()" class="btn btn-primary btn-custom">+ Playlist</button>
+            </div>
+            <div class="col-sm">
+              <button type="button" onclick="showMessage()" class="btn btn-primary btn-custom">Marcar como
+                Assistido</button>
+            </div>
+            <div id="message" class="col-12"></div>
+          </div>
+          {% endif %}
+
+          <h2 class="section-header">Disponível em</h2>
+          {% for element in list_streaming_movie %}
+          <a href="{{element.platform.url}}/{{movie.name}}"> <span class="badge badge-info">{{element.platform}}</span>
+          </a>
+          {% endfor %}
+
+          {% if user.is_superuser %}
+          <form id="form" action="/addMovieStreaming/{{movie.id}}/" method="POST" class="mt-3">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="platform">Adicionar Plataforma</label>
+              <select name="platform" id="platform" class="form-control">
+                {% for platform in platforms %}
+                <option value="{{platform.id}}">{{platform}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input class="btn btn-primary btn-custom" type="submit" value="Adicionar">
+          </form>
+          {% endif %}
+        </div>
+      </div>
     </div>
-</section>
-  
+  </section>
+
 
   <!-- AVALIAÇÕES ...-->
   <hr>
@@ -168,99 +176,104 @@
   <section>
     <div class="container">
       <h2><i class="fa-regular fa-comment"></i> Comentários</h2>
-      
+
       {% for element in evaluation %}
-        <div class="comment-card">
-          <div class="comment-header">
-            <span>{{ element.user }}</span>
-            {% if user.is_authenticated %}
-              {% if user.users in element.user.followers.filter%}
-                <button type="button" class="btn btn-secondary" onclick="userFollower('{{ element.user.id }}')">SEGUINDO</button>
-              {% else %}
-                <button type="button" class="btn btn-primary" onclick="userFollower('{{ element.user.id }}')">SEGUIR</button>
-              {% endif %}
-            {% else %}
-              <button type="button" class="btn btn-primary" onclick="userFollower('{{ element.user.id }}')">SEGUIR</button>
-            {% endif %}
-          </div>
-          
-          <div class="comment-body">
-                        <p><strong>Classificação:</strong> {{ element.classification }} <i class="fas fa-star"></i></p>
-            <p><strong>Comentário:</strong> {{ element.comment }}</p>
-            <p><strong>Publicado em:</strong> {{ element.publication }}</p>
-          </div>
-          
-          {% if request.user.id == element.user.id %}
-            <button type="button" class="btn btn-warning" onclick="updateEvaluation('{{ element.id }}')">EDITAR</button>
+      <div class="comment-card">
+        <div class="comment-header">
+          <span>{{ element.user }}</span>
+          {% if user.is_authenticated %}
+          {% if user.users in element.user.followers.filter%}
+          <button type="button" class="btn btn-secondary"
+            onclick="userFollower('{{ element.user.id }}')">SEGUINDO</button>
+          {% else %}
+          <button type="button" class="btn btn-primary" onclick="userFollower('{{ element.user.id }}')">SEGUIR</button>
           {% endif %}
-  
-          <div class="comment-actions">
-            <button type="button" class="btn btn-success" onclick="like('{{ element.id }}')">
-              <i class="fas fa-thumbs-up"></i>
-              {% if element.full_likes %}
-              <span class="sr-only">Marque como &quot;gostei&quot; com +</span> {{ element.full_likes }} pessoa(s)
-              {% else %}
-              <span class="sr-only">Marque como &quot;gostei&quot; com +</span> 0 pessoa(s)
-              {% endif %}
-            </button>
-            
-            <button type="button" class="btn btn-danger" onclick="dislike('{{ element.id }}')">
-              <i class="fas fa-thumbs-down"></i>
-              {% if element.full_dislikes %}
-              <span class="sr-only">Não gostei com +</span> {{ element.full_dislikes }} pessoa(s)
-              {% else %}
-              <span class="sr-only">Não gostei com +</span> 0 pessoa(s)
-              {% endif %}
-            </button>
-          </div>
+          {% else %}
+          <button type="button" class="btn btn-primary" onclick="userFollower('{{ element.user.id }}')">SEGUIR</button>
+          {% endif %}
         </div>
+
+        <div class="comment-body">
+          <p><strong>Classificação:</strong> {{ element.classification }} <i class="fas fa-star"></i></p>
+          <p><strong>Comentário:</strong> {{ element.comment }}</p>
+          <p><strong>Publicado em:</strong> {{ element.publication }}</p>
+        </div>
+
+        {% if request.user.id == element.user.id %}
+        <button type="button" class="btn btn-warning" onclick="updateEvaluation('{{ element.id }}')">EDITAR</button>
+        {% endif %}
+
+        <div class="comment-actions">
+          <button type="button" class="btn btn-success" onclick="like('{{ element.id }}')">
+            <i class="fas fa-thumbs-up"></i>
+            {% if element.full_likes %}
+            <span class="sr-only">Marque como &quot;gostei&quot; com +</span> {{ element.full_likes }} <span
+              class="sr-only">pessoa(s)</span>
+            {% else %}
+            <span class="sr-only">Marque como &quot;gostei&quot; com +</span> 0 <span class="sr-only">pessoa(s)</span>
+            {% endif %}
+          </button>
+
+          <button type="button" class="btn btn-danger" onclick="dislike('{{ element.id }}')">
+            <i class="fas fa-thumbs-down"></i>
+            {% if element.full_dislikes %}
+            <span class="sr-only">Não gostei com +</span> {{ element.full_dislikes }} <span
+              class="sr-only">pessoa(s)</span>
+            {% else %}
+            <span class="sr-only">Não gostei com +</span> 0 <span class="sr-only">pessoa(s)</span>
+            {% endif %}
+          </button>
+        </div>
+      </div>
       {% endfor %}
-      
+
       {% if user.is_authenticated %}
-        <div class="mt-4">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">AVALIAR</button>
-  
-          <!-- Modal para Avaliação -->
-          <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">AVALIAÇÃO DO FILME</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="form" action="/evaluation/" method="POST" onsubmit="validateForm(event, 'form')">
-                    {% csrf_token %}
-                    <input type="hidden" id="idMovie" name="idMovie" value="{{ movie.id }}">
-                    <div class="form-group">
-                      <label for="cla">Classificação</label>
-                      <select class="form-control" name="cla" id="cla">
-                        <option value="1">RUIM</option>
-                        <option value="2">MEDIANO</option>
-                        <option value="3">BOM</option>
-                        <option value="4">MUITO BOM</option>
-                        <option value="5">EXCELENTE</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="fcomment">Comentário</label>
-                      <input type="text" class="form-control" id="fcomment" name="fcomment">
-                    </div>
-                    <button class="btn btn-primary" type="submit">AVALIAR</button>
-                  </form>
-                </div>
+      <div class="mt-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">AVALIAR</button>
+
+        <!-- Modal para Avaliação -->
+        <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">AVALIAÇÃO DO FILME</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="form" action="/evaluation/" method="POST" onsubmit="validateForm(event, 'form')">
+                  {% csrf_token %}
+                  <input type="hidden" id="idMovie" name="idMovie" value="{{ movie.id }}">
+                  <div class="form-group">
+                    <label for="cla">Classificação</label>
+                    <select class="form-control" name="cla" id="cla" style="font-size: 12px;">
+                      <option value="1">RUIM</option>
+                      <option value="2">MEDIANO</option>
+                      <option value="3">BOM</option>
+                      <option value="4">MUITO BOM</option>
+                      <option value="5">EXCELENTE</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="fcomment">Comentário</label>
+                    <input type="text" class="form-control" id="fcomment" name="fcomment">
+                  </div>
+                  <button class="btn btn-primary" type="submit">AVALIAR</button>
+                </form>
               </div>
             </div>
           </div>
         </div>
+      </div>
       {% else %}
-        <p>Faça login para avaliar.</p>
+      <p>Faça login para avaliar.</p>
       {% endif %}
-  
+
       <!-- Modal para Atualizar Avaliação -->
-      <div class="modal fade" id="modalExemploUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalExemploUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -276,7 +289,7 @@
                 <div class="form-group">
                   <label for="fcla">Classificação</label>
                   <select class="form-control" name="fcla" id="fcla" style="font-size: 12px;">
-                    <option value="1">1<i class="fas fa-star"></i> - RUIM</option>
+                    <option value="1">RUIM</option>
                     <option value="2">MEDIANO</option>
                     <option value="3">BOM</option>
                     <option value="4">MUITO BOM</option>
@@ -297,30 +310,30 @@
   </section>
 
   <script type="text/javascript">
-                      function validateForm(event, formId) {
-            // Obtém o formulário pelo ID
-            const form = document.getElementById(formId);
-            
-            // Obtém todos os campos do formulário
-            const campos = form.querySelectorAll('input, textarea');
-            
-            // Verifica se algum campo está vazio
-            for (let campo of campos) {
-                if (campo.value.trim() === '') {
-                    alert('Por favor, preencha todos os campos.');
-                    event.preventDefault(); // Impede o envio do formulário
-                    return;
-                }
-            }
-        }
+    function validateForm(event, formId) {
+      // Obtém o formulário pelo ID
+      const form = document.getElementById(formId);
 
-      function showMessage(){
-                  document.getElementById('message').innerHTML = '<div class="alert alert-warning" role="alert">Você precisa estar logado para adicionar à playlist ou marcar como assistido.</div>';   
+      // Obtém todos os campos do formulário
+      const campos = form.querySelectorAll('input, textarea');
+
+      // Verifica se algum campo está vazio
+      for (let campo of campos) {
+        if (campo.value.trim() === '') {
+          alert('Por favor, preencha todos os campos.');
+          event.preventDefault(); // Impede o envio do formulário
+          return;
+        }
+      }
     }
-         </script>
-  
+
+    function showMessage() {
+      document.getElementById('message').innerHTML = '<div class="alert alert-warning" role="alert">Você precisa estar logado para adicionar à playlist ou marcar como assistido.</div>';
+    }
+  </script>
+
   <script src="{% static 'js/scripts.js' %}"></script>
-  
+
   <!--Scripts do Bootstrap -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
