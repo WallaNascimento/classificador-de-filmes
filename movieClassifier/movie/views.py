@@ -144,7 +144,7 @@ def addMovieStreaming(request, pk):
   
 def search(request):
     name = request.POST['search']
-    search = Movie.objects.filter(name=name)
+    search = Movie.objects.filter(name__icontains=name)
     
     return render(request, 'index.html', {'search':search})
 
